@@ -1,0 +1,12 @@
+@import '../.././../../assets/scss/abstracts/abstracts-dir.scss';
+.custom-radio{
+.custom-control-input:checked ~ .custom-control-label::before{
+
+    color: $white !important;
+    border-color:$primary-bg !important;
+    background-color: $primary-bg !important;
+}
+.custom-control-label{
+    color: #404040;
+}
+}

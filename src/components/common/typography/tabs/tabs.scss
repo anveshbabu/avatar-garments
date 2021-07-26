@@ -1,0 +1,16 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.ab-tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    .nav-item {
+        .nav-link {
+            color: #4A5C7B;
+            font-size: fontSize(14px);
+            &.active {
+                color: #006FCF;
+                background-color: transparent;
+                border-color: transparent transparent #377dff;
+                border-bottom: 3px solid;
+            }
+        }
+    }
+}

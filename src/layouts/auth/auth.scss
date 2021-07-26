@@ -1,0 +1,19 @@
+@import "../../assets/scss/abstracts/abstracts-dir.scss";
+.auth-layout {
+
+
+  .login,
+  .image {
+    min-height: 100vh;
+  }
+
+  .bg-image {
+    // background-image: url("./assets/images/login-bg.svg");
+  
+    background-repeat: no-repeat;
+  }
+
+  .login-heading {
+    font-weight: 300;
+  }
+}

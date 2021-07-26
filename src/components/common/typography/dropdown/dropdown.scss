@@ -1,0 +1,65 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.btn-group {
+    display: unset;
+    .dropdown-menu.show {
+        background: #ffffff;
+        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.15);
+        border-radius: 5px;
+        border: none;
+        padding: 1rem 0;
+        max-height: 284px;
+        width: 235px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .dropdown-toggle {
+        &.no-caret {
+            &::after,
+            &:before {
+                border: none;
+            }
+        }
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .dropdown-item {
+        font-size: 14px;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        color: #444444;
+        cursor: pointer;
+        text-emphasis: opacity;
+        opacity: 0.5;
+        &:active {
+            background-color: transparent;
+            color: $black;
+            opacity: 1;
+        }
+    }
+}
+.normal-drop {
+    .dropdown-menu.show {
+        max-height: 284px;
+        width: 235px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        .search-input {
+            font-size: 14px;
+            &::placeholder {
+                font-size: 14px;
+            }
+        }
+    }
+}
+.btn-secondary.dropdown-toggle {
+    &:focus {
+        box-shadow: none !important;
+    }
+}
+
+.opacity-0{
+    opacity:unset
+}

@@ -1,0 +1,20 @@
+.app-alert-modal{
+    .modal-body{
+        padding-top: 1.5rem;
+    }
+    .modal-img{
+        margin-bottom: 25px;
+    }
+    .alert-btn{
+        width: 165px;
+        +.alert-btn{
+            margin-left: 45px;
+           
+        }
+    }
+
+    .modal-footer{
+        display:unset;
+        padding: 12px;
+    }
+}
