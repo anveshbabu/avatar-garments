@@ -1,9 +1,20 @@
 import React from "react";
 import { NormalInput } from '../../../common'
 import './productList.scss'
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ProductEdit } from '../productEdit'
 export class ProductList extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isProductFormModal: false
+        }
+    }
+
+
     render() {
+        let { isProductFormModal } = this.state;
         return (
             <>
                 <div className="row mb-4">
@@ -31,7 +42,7 @@ export class ProductList extends React.Component {
                         <div className="card product-card">
                             {/* <img src="..." className="card-img-top" alt="..." /> */}
                             <div className="card-body">
-                            <span className="badge bg-danger float-end">wastage: 20M</span>
+                                <span className="badge bg-danger float-end">wastage: 20M</span>
                                 <h5 className="card-title">Kadhar</h5>
                                 <small className="text-muted">001</small>
                                 {/* <hr> */}
@@ -86,10 +97,10 @@ export class ProductList extends React.Component {
                             <div className="text-center card-footer">
                                 <ul className="nav">
                                     <li className="nav-item">
-                                        <Link className="nav-link text-primary" to="/supplier/product/form">View </Link>
+                                        <Link className="nav-link text-primary" onClick={() => this.setState({ isProductFormModal: !isProductFormModal })}>View </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link text-success" to="/supplier/product/form">Edit</Link>
+                                        <Link className="nav-link text-success" onClick={() => this.setState({ isProductFormModal: !isProductFormModal })}>Edit</Link>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link text-danger" href="#">Delete</a>
@@ -99,6 +110,7 @@ export class ProductList extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ProductEdit isShow={isProductFormModal} toggle={() => this.setState({ isProductFormModal: !isProductFormModal })} />
             </>
         );
     }

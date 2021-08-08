@@ -15,6 +15,7 @@ export class SupplierList extends React.Component {
                     </div>
                 </div>
                 <div className="row">
+                {['Raman & co','M & sons'].map((number) =>
                     <div className="col-md-4">
                         <div className="card product-card">
                             {/* <img src="..." className="card-img-top" alt="..." /> */}
@@ -76,6 +77,7 @@ export class SupplierList extends React.Component {
                             </div>
                         </div>
                     </div>
+                      )}
                 </div>
             </>
         );

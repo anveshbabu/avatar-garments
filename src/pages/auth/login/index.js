@@ -1,5 +1,5 @@
 import React from "react";
-import "./login.scss";
+// import "./login.scss";
 import {
   NormalInput,
   NormalButton,

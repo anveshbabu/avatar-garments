@@ -28,14 +28,15 @@ const routers = [
     path: "/dashboard",
     redirect: "/dashboard/",
     auth: false,
-    exact: true,
+    exact: false,
     childrens: [
       {
         component: "Dashboard",
         path: "/",
         auth: false,
         exact: true
-      }
+      },
+      
     ]
   },
 
@@ -55,12 +56,6 @@ const routers = [
       {
         component: "Product",
         path: "/product",
-        auth: false,
-        exact: true
-      },
-      {
-        component: "ProductEdit",
-        path: "/form",
         auth: false,
         exact: true
       }
