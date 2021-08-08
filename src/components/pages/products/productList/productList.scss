@@ -1,0 +1,53 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.product-card {
+    .card-body {
+        .card-title {
+            margin: 0;
+            font-size: 1.125rem;
+        }
+        .badge{
+            font-size: 14px;
+        }
+        .table{
+            thead{
+                tr{
+                    th{
+                        background-color:  #eef2f7;
+                        border-bottom-width: 1px;
+                        color: #313a46;
+                        font-size: 14px;
+                        border: 0;
+                        padding: 8px;
+                    }
+                }
+                border-bottom-color: #eef2f7;
+            }
+            tr{
+                td{
+                    padding: 8px;
+                    strong{
+                        color: #313a46;
+                        font-size: 14px;
+                    }
+                    color: #6c757d;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+    .card-footer{
+        background-color: transparent;
+        ul{
+            li{
+                width: 33.3%;
+                a{
+                    padding: 8px;
+                }
+                +li{
+                    border-left: 1px solid #98a6ad!important;
+                   
+                }
+            }
+        }
+    }
+}

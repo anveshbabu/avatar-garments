@@ -10,12 +10,4 @@
 * applicable.
 *
 */
-export const OFFERS = {
-    DISCOUNT_TYPE: {
-        PERCENTAGE: 'percentage',
-        FIXED: 'fixed',
-  
-    },
-
-   
-}
+export {Components} from './components';

@@ -1,0 +1,18 @@
+@import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.product-card {
+    .card-body {
+        .card-title {
+            margin: 0;
+            font-size: 1.125rem;
+        }
+        .table{
+            tr{
+                td{
+                    strong{
+                        font-size: .875rem;
+                    }
+                }
+            }
+        }
+    }
+}

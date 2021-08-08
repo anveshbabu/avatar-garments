@@ -1,15 +1,4 @@
-/**
-*
-* Disclaimer: Source code mentioned below is(are) Intellectual Property of
-* Crayon Data Holdings Limited (including its subsidiaries and affiliates).
-* Crayon Data Holdings Limited reserves right to own and control it the way
-* it may deem fit. You must refrain from use, access, read, modify, add or
-* delete, sell or use in any other package or programme pertaining to such
-* source code without explicit prior written approval of
-* Crayon Data Holding Limited. Breach of the same shall attract penalty as
-* applicable.
-*
-*/
+
 import React, { Component } from "react";
 
 export class NormalCheckbox extends Component {
@@ -48,7 +37,7 @@ export class NormalCheckbox extends Component {
         {label ? (
           <label
             htmlFor={id}
-            className="custom-control-label label-txt fs-16 pl-1"
+            className="custom-control-label label-txt fs-16 ps-1"
           >
             {label}
           </label>

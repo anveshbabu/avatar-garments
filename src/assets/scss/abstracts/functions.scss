@@ -1,0 +1,6 @@
+$root-font-size : 16px;
+
+@function fontSize($size) {
+    $remSize: $size / $root-font-size;
+    @return #{$remSize}rem;
+}

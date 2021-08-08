@@ -1,0 +1,39 @@
+@mixin optional-at-root($sel) {
+    @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+      @content;
+    }
+  }
+  
+  @mixin placeholder {
+    @include optional-at-root('::-webkit-input-placeholder') {
+      @content;
+    }
+  
+    @include optional-at-root(':-moz-placeholder') {
+      @content;
+    }
+  
+    @include optional-at-root('::-moz-placeholder') {
+      @content;
+    }
+  
+    @include optional-at-root(':-ms-input-placeholder') {
+      @content;
+    }
+  }
+  
+  @mixin media-breakpoint-hd-desktop {
+    @media (min-width: 1500px) { @content;}
+  }
+  @mixin media-breakpoint-mobile-land {
+    @media (max-width: 768px) { @content; }
+  }
+  @mixin media-breakpoint-tab-port {
+    @media screen and (max-width: 991px) and (min-width: 768px) { @content; }
+  }
+  @mixin media-breakpoint-tab-land {
+    @media screen and (max-width: 1199px) and (min-width: 992px) { @content; }
+  }
+  @mixin media-breakpoint-mobile-port {
+    @media(max-width:480px) { @content; }
+  }

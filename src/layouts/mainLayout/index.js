@@ -36,7 +36,7 @@ export class MainLayout extends React.Component {
         
           <div id="page-content-wrapper" className="w-100">
           <Header />
-          <div className="container-fluid">
+          <div className="container">
           <section>{this.props.children}</section>
           </div>
            
