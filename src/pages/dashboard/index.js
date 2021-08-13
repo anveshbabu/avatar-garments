@@ -6,9 +6,8 @@ export class Dashboard extends React.Component {
     return (
       <div>
         <h4 className="page-titel mb-4 ">
-         Dashboard
+          Dashboard
         </h4>
-      
       </div>
     );
   }
