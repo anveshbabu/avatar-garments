@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Route,Router  } from "react-router-dom";
+import {Route,HashRouter as Router,  } from "react-router-dom";
 import { } from "react-router-dom";
 import routers from "./routes";
 

@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.80a43d4b.chunk.css",
-    "main.js": "/static/js/main.d19e6992.chunk.js",
-    "main.js.map": "/static/js/main.d19e6992.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ea1a0efb.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ea1a0efb.js.map",
-    "static/css/2.e9177d37.chunk.css": "/static/css/2.e9177d37.chunk.css",
-    "static/js/2.68bb9149.chunk.js": "/static/js/2.68bb9149.chunk.js",
-    "static/js/2.68bb9149.chunk.js.map": "/static/js/2.68bb9149.chunk.js.map",
-    "static/js/3.50b3cf5d.chunk.js": "/static/js/3.50b3cf5d.chunk.js",
-    "static/js/3.50b3cf5d.chunk.js.map": "/static/js/3.50b3cf5d.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/2.e9177d37.chunk.css.map": "/static/css/2.e9177d37.chunk.css.map",
-    "static/css/main.80a43d4b.chunk.css.map": "/static/css/main.80a43d4b.chunk.css.map",
-    "static/js/2.68bb9149.chunk.js.LICENSE.txt": "/static/js/2.68bb9149.chunk.js.LICENSE.txt",
-    "static/media/app.scss": "/static/media/bootstrap-icons.dfd0ea12.woff2"
+    "main.css": "/avatar-garments.git/static/css/main.80a43d4b.chunk.css",
+    "main.js": "/avatar-garments.git/static/js/main.7f2fec21.chunk.js",
+    "main.js.map": "/avatar-garments.git/static/js/main.7f2fec21.chunk.js.map",
+    "runtime-main.js": "/avatar-garments.git/static/js/runtime-main.61d0b3af.js",
+    "runtime-main.js.map": "/avatar-garments.git/static/js/runtime-main.61d0b3af.js.map",
+    "static/css/2.fc86fccc.chunk.css": "/avatar-garments.git/static/css/2.fc86fccc.chunk.css",
+    "static/js/2.d2d5c3da.chunk.js": "/avatar-garments.git/static/js/2.d2d5c3da.chunk.js",
+    "static/js/2.d2d5c3da.chunk.js.map": "/avatar-garments.git/static/js/2.d2d5c3da.chunk.js.map",
+    "static/js/3.50b3cf5d.chunk.js": "/avatar-garments.git/static/js/3.50b3cf5d.chunk.js",
+    "static/js/3.50b3cf5d.chunk.js.map": "/avatar-garments.git/static/js/3.50b3cf5d.chunk.js.map",
+    "index.html": "/avatar-garments.git/index.html",
+    "static/css/2.fc86fccc.chunk.css.map": "/avatar-garments.git/static/css/2.fc86fccc.chunk.css.map",
+    "static/css/main.80a43d4b.chunk.css.map": "/avatar-garments.git/static/css/main.80a43d4b.chunk.css.map",
+    "static/js/2.d2d5c3da.chunk.js.LICENSE.txt": "/avatar-garments.git/static/js/2.d2d5c3da.chunk.js.LICENSE.txt",
+    "static/media/app.scss": "/avatar-garments.git/static/media/bootstrap-icons.dfd0ea12.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.ea1a0efb.js",
-    "static/css/2.e9177d37.chunk.css",
-    "static/js/2.68bb9149.chunk.js",
+    "static/js/runtime-main.61d0b3af.js",
+    "static/css/2.fc86fccc.chunk.css",
+    "static/js/2.d2d5c3da.chunk.js",
     "static/css/main.80a43d4b.chunk.css",
-    "static/js/main.d19e6992.chunk.js"
+    "static/js/main.7f2fec21.chunk.js"
   ]
 }
