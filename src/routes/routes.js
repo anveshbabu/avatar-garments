@@ -8,7 +8,7 @@ const routers = [
   {
     component: 'AuthLayout',
     path: '/auth',
-    redirect: "/#/auth/login/",
+    redirect: "/auth/login/",
     auth: false,
     exact: false,
     childrens: [

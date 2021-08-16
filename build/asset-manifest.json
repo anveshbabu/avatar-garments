@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/avatar-garments/static/css/main.80a43d4b.chunk.css",
-    "main.js": "/avatar-garments/static/js/main.e0e5fadc.chunk.js",
-    "main.js.map": "/avatar-garments/static/js/main.e0e5fadc.chunk.js.map",
+    "main.js": "/avatar-garments/static/js/main.66365c38.chunk.js",
+    "main.js.map": "/avatar-garments/static/js/main.66365c38.chunk.js.map",
     "runtime-main.js": "/avatar-garments/static/js/runtime-main.e51c6b63.js",
     "runtime-main.js.map": "/avatar-garments/static/js/runtime-main.e51c6b63.js.map",
     "static/css/2.1c3f2645.chunk.css": "/avatar-garments/static/css/2.1c3f2645.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.1c3f2645.chunk.css",
     "static/js/2.d2d5c3da.chunk.js",
     "static/css/main.80a43d4b.chunk.css",
-    "static/js/main.e0e5fadc.chunk.js"
+    "static/js/main.66365c38.chunk.js"
   ]
 }
