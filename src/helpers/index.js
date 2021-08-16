@@ -1,1 +1,1 @@
-export const history = require('history').createBrowserHistory({});
+export const history = require('history').createHashHistory({});
