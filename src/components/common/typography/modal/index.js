@@ -29,14 +29,12 @@ export class Dialog extends Component {
 
     componentWillMount() {
         let { type } = this.props;
-
-        console.log(type, '---Type>>')
         if (type === MODAL.TYPE.SUCCESS) {
-            this.setState({ modalImg: '/images/alert/success.svg' })
+            this.setState({ modalImg: '/avatar-garments/images/alert/success.svg' })
         } else if (type === MODAL.TYPE.WARNING) {
-            this.setState({ modalImg: '/images/alert/warning.svg' })
+            this.setState({ modalImg: '/avatar-garments/images/alert/warning.svg' })
         } else if (type === MODAL.TYPE.DANGER) {
-            this.setState({ modalImg: '/images/alert/danger.svg' })
+            this.setState({ modalImg: '/avatar-garments/images/alert/danger.svg' })
         }
     }
 
@@ -45,16 +43,13 @@ export class Dialog extends Component {
     componentDidUpdate(prevProps) {
         let { type } = this.props;
         if (prevProps.type !== type) {
-            console.log(type, '---Type>>')
             if (type === MODAL.TYPE.SUCCESS) {
-                this.setState({ modalImg: '/images/alert/success.svg' })
+                this.setState({ modalImg: '/avatar-garments/images/alert/success.svg' })
             } else if (type === MODAL.TYPE.WARNING) {
-                this.setState({ modalImg: '/images/alert/warning.svg' })
+                this.setState({ modalImg: '/avatar-garments/images/alert/warning.svg' })
             } else if (type === MODAL.TYPE.DANGER) {
-                this.setState({ modalImg: '/images/alert/danger.svg' })
+                this.setState({ modalImg: '/avatar-garments/images/alert/danger.svg' })
             }
-
-
 
 
         }
@@ -67,14 +62,14 @@ export class Dialog extends Component {
     render() {
 
         let { show, onToggle, type, title, sucessBtn = 'deactivate', cancleBtn = "cancel", btn = false, subText = '' } = this.props
-        let { modalImg = "/images/alert/warning.svg" } = this.state;
+        let { modalImg = "/avatar-garments/images/alert/warning.svg" } = this.state;
         return (
             <Modal isOpen={show} className={'modal-dialog-centered app-alert-modal'}>
                 {/* <ModalHeader toggle={onToggle}>Modal title</ModalHeader> */}
                 <ModalBody>
                     <div className="row justify-content-md-center">
                         <div className="col-md-12 text-center">
-                            <img className="float-right cursor-pointer" onClick={() => onToggle(false)} src="/icons/close-modal.svg" alt="" />
+                            <img className="float-right cursor-pointer" onClick={() => onToggle(false)} src="/images/icons/close-modal.svg" alt="" />
                             <img className="modal-img" src={modalImg} alt="" />
                         </div>
                         <div className="col-md-10  text-center">

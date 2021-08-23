@@ -53,68 +53,169 @@ export class ProductEdit extends React.Component {
                             </div>
                         </div>
                     </div>
-
+                    <hr />
                     <div className="row">
+                        {/* <div className="col-12">
+                            <h4 className="content-title">Cutting</h4>
+                        </div> */}
                         <div className="col-md-6">
                             <div className="mb-3">
-                                <label className="form-label">Total Cutting</label>
-                                <NormalInput placeholder="Enter Total Cutting" />
+                                <label className="form-label">Cutting(S)</label>
+                                <NormalInput placeholder="Enter Cutting(S)" />
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="mb-3">
-                                <label className="form-label">Completed Cutting</label>
-                                <NormalInput placeholder="Enter Completed Cutting" />
+                                <label className="form-label">Cutting(M)</label>
+                                <NormalInput placeholder="Enter Cutting(M)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Cutting(L)</label>
+                                <NormalInput placeholder="Enter Cutting(L)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Total Quantity</label>
+                                <NormalInput placeholder="Total Quantity" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Total Meters Used</label>
+                                <NormalInput placeholder="Total Meters Used" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="row">
+                        {/* <div className="col-12">
+                            <h4 className="content-title">Cutting</h4>
+                        </div> */}
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Stitching(S)</label>
+                                <NormalInput placeholder="Enter Stitching(S)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Stitching(M)</label>
+                                <NormalInput placeholder="Enter Stitching(M)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Stitching(L)</label>
+                                <NormalInput placeholder="Enter Stitching(L)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Total Quantity</label>
+                                <NormalInput placeholder="Total Quantity" />
                             </div>
                         </div>
                     </div>
 
+                    <hr />
                     <div className="row">
+                        {/* <div className="col-12">
+                            <h4 className="content-title">Cutting</h4>
+                        </div> */}
                         <div className="col-md-6">
                             <div className="mb-3">
-                                <label className="form-label">Total Stitching</label>
-                                <NormalInput placeholder="Enter Total Stitching" />
+                                <label className="form-label">Ironing(S)</label>
+                                <NormalInput placeholder="Enter Ironing(S)" />
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="mb-3">
-                                <label className="form-label">Completed Stitching</label>
-                                <NormalInput placeholder="Enter Completed Stitching" />
+                                <label className="form-label">Ironing(M)</label>
+                                <NormalInput placeholder="Enter Ironing(M)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Ironing(L)</label>
+                                <NormalInput placeholder="Enter Ironing(L)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Total Quantity</label>
+                                <NormalInput placeholder="Total Quantity" />
                             </div>
                         </div>
                     </div>
 
+                   
+                    <hr />
                     <div className="row">
+                        {/* <div className="col-12">
+                            <h4 className="content-title">Cutting</h4>
+                        </div> */}
                         <div className="col-md-6">
                             <div className="mb-3">
-                                <label className="form-label">Total Ironing</label>
-                                <NormalInput placeholder="Enter Total Ironing" />
+                                <label className="form-label">Packing(S)</label>
+                                <NormalInput placeholder="Enter Ironing(S)" />
                             </div>
                         </div>
                         <div className="col-md-6">
                             <div className="mb-3">
-                                <label className="form-label">Completed Ironing</label>
-                                <NormalInput placeholder="Enter Completed Ironing" />
+                                <label className="form-label">Packing(M)</label>
+                                <NormalInput placeholder="Enter Packing(M)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Packing(L)</label>
+                                <NormalInput placeholder="Enter Packing(L)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Total Quantity</label>
+                                <NormalInput placeholder="Total Quantity" />
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                    <hr/>
+                    <div className="row">
+                        {/* <div className="col-12">
+                            <h4 className="content-title">Cutting</h4>
+                        </div> */}
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Shipment(S)</label>
+                                <NormalInput placeholder="Enter Shipment(S)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Shipment(M)</label>
+                                <NormalInput placeholder="Enter Shipment(M)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Shipment(L)</label>
+                                <NormalInput placeholder="Enter Shipment(L)" />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="mb-3">
+                                <label className="form-label">Total Quantity</label>
+                                <NormalInput placeholder="Total Quantity" />
                             </div>
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="mb-3">
-                                <label className="form-label">Total Packing</label>
-                                <NormalInput placeholder="Enter Total Packing" />
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="mb-3">
-                                <label className="form-label">Completed Packing</label>
-                                <NormalInput placeholder="Enter Completed Packing" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-md-6">
                             <div className="mb-3">
                                 <label className="form-label">Total Shipment</label>
@@ -127,7 +228,7 @@ export class ProductEdit extends React.Component {
                                 <NormalInput placeholder="Enter Completed Shipment" />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
 
                 </ModalBody>

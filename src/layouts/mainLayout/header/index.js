@@ -1,8 +1,48 @@
 import React from 'react';
-import { NavLink  } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './header.scss'
+import { Dialog, NormalDropdown } from "../../../components/common";
+import { MODAL } from "../../../service/constants";
+import { history } from "../../../helpers";
 export class Header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            alertModel: {
+                isShow: false,
+                type: '',
+                title: '',
+                id: '',
+                index: -1,
+                okBtn: ''
+            }
+        };
+    }
+
+    //handleLogOut function call start
+    handleLogOut = () => {
+        let { alertModel } = this.state;
+        alertModel.isShow = true;
+        alertModel.type = MODAL.TYPE.WARNING;
+        alertModel.okBtn = 'yes, Log Out'
+        alertModel.title = 'Are you sure you want to Log Out';
+        this.setState({ alertModel })
+    }
+
+    //handleAlert 
+    handleAlertModal = (value) => {
+        let { alertModel } = this.state;
+        if (value) {
+            alertModel.isShow = false;
+           
+            history.push(`/auth/login`);
+        } else {
+            alertModel.isShow = false;
+        }
+        this.setState({ alertModel })
+    }
     render() {
+        let { alertModel } = this.state;
         return (
             <header className="p-3 mb-3 border-bottom app-header shadow ">
                 <div className="container">
@@ -16,16 +56,15 @@ export class Header extends React.Component {
                         </a>
 
                         <ul className="nav nav-pills col-12 col-lg-auto my-2 me-lg-3 justify-content-center my-md-0 text-smal">
-                            <li className="nav-item"><NavLink  to="/dashboard" className="nav-link px-2">Dashboard</NavLink ></li>
-                            {/* <li><a href="#" className="nav-link px-2 link-light">Inventory</a></li>
-              <li><a href="#" className="nav-link px-2 link-light">Customers</a></li> */}
-                            <li className="nav-item"><NavLink  to="/supplier" className="nav-link px-2">Products</NavLink ></li>
+                            <li className="nav-item"><NavLink to="/dashboard" className="nav-link px-2">Dashboard</NavLink ></li>
+                            <li className="nav-item"><NavLink to="/supplier" className="nav-link px-2">Products</NavLink ></li>
+                            <li className="nav-item"><NavLink to="/users" className="nav-link px-2">Users</NavLink ></li>
                         </ul>
 
 
 
-                        <div className="dropdown text-end">
-                            <a href="#" className="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div className="dropdown text-end" onClick={this.handleLogOut}>
+                            <a  className="d-block link-light text-decoration-none dropdown-toggle">
                                 <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
                             </a>
                             <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -38,6 +77,8 @@ export class Header extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Dialog show={alertModel.isShow} sucessBtn={alertModel.okBtn} onToggle={this.handleAlertModal} type={alertModel.type} title={alertModel.title} />
+
             </header>
         );
     }

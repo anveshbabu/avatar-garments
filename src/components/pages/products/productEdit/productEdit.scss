@@ -1,4 +1,4 @@
-
+@import '../../../../assets/scss/abstracts/abstracts-dir.scss';
 .edit-modal{
     position: absolute;
     width: 100%;
@@ -10,5 +10,9 @@
     height: 100%;
     .modal-content{
         min-height: 100%;
+        .content-title{
+            font-size: 18px;
+            color: $primary-bg;
+        }
     }
 }

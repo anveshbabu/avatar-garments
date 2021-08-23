@@ -12,7 +12,7 @@
 */
 import React from "react";
 import "./dropdown.scss";
-import { ButtonDropdown , DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { AbIf } from "../abIf";
 import { NormalInput } from "../input";
 export class NormalDropdown extends React.Component {
@@ -28,7 +28,7 @@ export class NormalDropdown extends React.Component {
 
   }
   handleDropdown = () => {
-       this.setState({ isOpen: !this.state.isOpen })
+    this.setState({ isOpen: !this.state.isOpen })
   };
 
 
@@ -49,7 +49,7 @@ export class NormalDropdown extends React.Component {
     if (isOpen !== prevState.isOpen && !isOpen) {
       this.setState({ optionsList, searchValue: '' })
     }
-   
+
   }
 
 
@@ -76,36 +76,36 @@ export class NormalDropdown extends React.Component {
       removeAssignId,
       disabled = false,
       caret = true,
-      direction='',
+      direction = '',
       // id = ''
       isSearch = false,
       searchPlaceholder = '',
       assignIds = [],
-      autoClose=false
+      autoClose = false
     } = this.props;
-    let { isOpen, optionsList, searchValue,  } = this.state;
+    let { isOpen, optionsList, searchValue, } = this.state;
     return (
 
 
-      <ButtonDropdown  direction={direction}   disabled={disabled} isOpen={isOpen} toggle={this.handleDropdown} className={isSearch ? 'normal-drop' : ''}>
+      <ButtonDropdown direction={direction} disabled={disabled} isOpen={isOpen} toggle={this.handleDropdown} className={isSearch ? 'normal-drop' : ''}>
         {/* <Button id="caret" >{label ? label : ''}  {isOpen ? <i className="fas fa-chevron-up ml-2"></i> : <i className="fas fa-chevron-down ml-2"></i>}</Button> */}
         <DropdownToggle disabled={disabled} color="" className={className} >
 
 
-          {label ? label : <i className="material-icons">{labelIcon}</i>} <AbIf show={caret}>{isOpen ? <i className="fas fa-chevron-up ml-2"></i> : <i className="fas fa-chevron-down ml-2"></i>} </AbIf>
+          {label ? label : <i className={labelIcon}></i>} <AbIf show={caret}>{isOpen ? <i className="fas fa-chevron-up ml-2"></i> : <i className="fas fa-chevron-down ml-2"></i>} </AbIf>
         </DropdownToggle>
 
         <DropdownMenu >
           {isSearch ? <DropdownItem header><NormalInput className="search-input" type="search" value={searchValue} placeholder={searchPlaceholder} onChange={this.handleFilterInput} /></DropdownItem> : ''}
           <div>
             {assignIds.length > 0 ? <DropdownItem header> <label className="text-dark">Assigned</label></DropdownItem> : ''}
-            {optionsList.map(({ label, img,value }, i) =>
-             <AbIf show={assignIds.includes(value)}>
-              <DropdownItem header > {img ? <img src={img} alt="Girl in a jacket" className="mr-1 rounded-circle" width="24" height="25" /> : ''}
-                {label}
-                <i onClick={() => removeAssignId(value)} className="material-icons float-right opacity-0 mt-1 cursor-pointer">close</i>
-              </DropdownItem>
-           </AbIf>
+            {optionsList.map(({ label, img, value }, i) =>
+              <AbIf show={assignIds.includes(value)}>
+                <DropdownItem header > {img ? <img src={img} alt="Girl in a jacket" className="mr-1 rounded-circle" width="24" height="25" /> : ''}
+                  {label}
+                  <i onClick={() => removeAssignId(value)} className="bi bi-x-lg float-right opacity-0 mt-1 cursor-pointer"></i>
+                </DropdownItem>
+              </AbIf>
             )}
           </div>
 
@@ -126,7 +126,7 @@ export class NormalDropdown extends React.Component {
                   onClick(body);
               }}>
                 {img ? <img src={img} alt="Girl in a jacket" className="mr-1 rounded-circle" width="24" height="25" /> : ''}
-                {icon ? <i className="material-icons">{icon}</i> : ""} {label}</DropdownItem>
+                {icon ? <i className={`${icon} me-1`}></i> : ""}{" "} {label}</DropdownItem>
             </AbIf>
 
           )}

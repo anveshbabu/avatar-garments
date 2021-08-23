@@ -1,0 +1,21 @@
+.user-list{
+    thead{
+        tr{
+            th{
+                font-size: 14px;
+                font-weight: bold;
+                color: #52565a;
+                border-bottom: 1px solid #cccccc;
+            }
+        }
+    }
+    .active{
+        color: #00c9a7;
+    }
+    .de-active {
+        color: #ed4c78!important;
+    }
+    .status-text{
+        font-weight: 500;
+    }
+}

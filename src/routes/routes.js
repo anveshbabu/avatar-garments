@@ -62,6 +62,29 @@ const routers = [
     ]
   },
 
+
+  {
+    component: "MainLayout",
+    path: "/users",
+    redirect: "/users/",
+    auth: false,
+    exact: false,
+    childrens: [
+      {
+        component: "Users",
+        path: "/",
+        auth: false,
+        exact: true
+      },
+      // {
+      //   component: "Product",
+      //   path: "/product",
+      //   auth: false,
+      //   exact: true
+      // }
+    ]
+  },
+
   // {
   //   component: "MainLayout",
   //   path: "/product",
