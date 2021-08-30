@@ -4,37 +4,44 @@ import './supplierList.scss';
 import { history } from '../../../../helpers';
 import { isAuthenticated } from '../../../../service/utilities';
 import { SupplierAdd } from '../supplierAdd';
-import {getAllSupplier} from '../../../../api/supplier'
+import { getAllSupplier } from '../../../../api/supplier'
 
 export class SupplierList extends React.Component {
 
     state = {
         isOpenAdd: false,
-        isFormLoder:true,
-        supplierList:[]
+        isFormLoder: true,
+        supplierList: [],
+        isNodata:false
 
 
     }
 
-    componentDidMount(){
-      this.getAllSupplierList()
+    componentDidMount() {
+        this.getAllSupplierList()
     };
 
 
-    getAllSupplierList=()=>{
+    getAllSupplierList = () => {
         this.setState({ isFormLoder: true });
         getAllSupplier().then((supplierList) => {
-            console.log('supplierList--------->',supplierList)
-            this.setState({ isFormLoder: false,supplierList });
+            this.setState({ isFormLoder: false, supplierList,isNodata:supplierList.length===0 });
         }).catch((error) => {
             this.setState({ isFormLoder: false });
             console.error(error)
         });
     }
 
+    handleTogleEditModule=(data)=>{
+        this.setState({ isOpenAdd: false,supplierObj:{} })
+        if(data==='success'){
+            this.getAllSupplierList()
+        }
+    
+    }
+
     render() {
-        let { isOpenAdd,supplierList} = this.state;
-        console.log('isAuthenticated--------->', isAuthenticated())
+        let { isOpenAdd, supplierList, supplierObj,isNodata } = this.state;
         return (
             <>
                 <div className="row mb-4">
@@ -49,15 +56,15 @@ export class SupplierList extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    {supplierList.map(({name,code='',cutting,stitching,ironing,packing,wastage,id}, i) =>
+                    {!isNodata && supplierList.map(({ name, code = '', cutting, stitching, ironing, packing,shipment, wastage, id }, i) =>
                         <div className="col-md-4 mb-4" key={id}>
                             <div className="card product-card">
                                 {/* <img src="..." className="card-img-top" alt="..." /> */}
                                 <div className="card-body">
 
-                                    <h5 className="card-title">{name}</h5>
+                                    <h5 className="card-title"><label>{name}</label> <i className="bi bi-pencil-fill text-primary edit-icon" onClick={() => this.setState({ isOpenAdd: true, supplierObj: supplierList[i] })} /></h5>
                                     <small className="text-muted">{code}</small>
-                                    <span className="text-danger float-end">{code}</span>
+                                    <span className="text-danger float-end">wastage:{wastage}M</span>
                                     {/* <hr> */}
                                     {/* <div className="">
                                     <h4 className="f5">wastage: <span className="text-danger">20M</span> </h4>
@@ -79,35 +86,35 @@ export class SupplierList extends React.Component {
                                                 <td>{cutting.small}</td>
                                                 <td>{cutting.medium}</td>
                                                 <td>{cutting.large}</td>
-                                                <td>{cutting.small+cutting.medium+cutting.large}</td>
+                                                <td>{cutting.small + cutting.medium + cutting.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Stitching</strong></td>
                                                 <td>{stitching.small}</td>
                                                 <td>{stitching.medium}</td>
                                                 <td>{stitching.large}</td>
-                                                <td>{stitching.small+stitching.medium+stitching.large}</td>
+                                                <td>{stitching.small + stitching.medium + stitching.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Ironing</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{ironing.small}</td>
+                                                <td>{ironing.medium}</td>
+                                                <td>{ironing.large}</td>
+                                                <td>{ironing.small + ironing.medium + ironing.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Packing</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{packing.small}</td>
+                                                <td>{packing.medium}</td>
+                                                <td>{packing.large}</td>
+                                                <td>{packing.small + packing.medium + packing.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Shipment</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{shipment.small}</td>
+                                                <td>{shipment.medium}</td>
+                                                <td>{shipment.large}</td>
+                                                <td>{shipment.small + shipment.medium + shipment.large}</td>
                                             </tr>
 
                                         </tbody>
@@ -115,13 +122,15 @@ export class SupplierList extends React.Component {
 
                                 </div>
                                 <div className="text-center card-footer">
-                                    <button className="btn btn-primary btn-sm" type="button" onClick={() => history.push('/supplier/product')}>Manage Supplier</button>
+                                    <button className="btn btn-primary btn-sm" type="button" onClick={() => history.push('/supplier/product/'+id)}>Manage Supplier</button>
                                 </div>
                             </div>
                         </div>
                     )}
+                    {isNodata?<h4 className="text-center  mt-5">No data available</h4>:''}
                 </div>
-                <SupplierAdd isShow={isOpenAdd} toggle={() => this.setState({ isOpenAdd: false })} />
+                {isOpenAdd ?
+                    <SupplierAdd isShow={isOpenAdd} supplierObjForm={supplierObj} toggle={this.handleTogleEditModule} /> : ''}
             </>
         );
     }

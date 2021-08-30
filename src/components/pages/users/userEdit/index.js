@@ -21,8 +21,8 @@ export class UserEdit extends React.Component {
 
     componentDidMount() {
         let { userObjForm } = this.props;
-        console.log(userObjForm)
-        if (!!userObjForm) {
+        console.log(!!userObjForm)
+        if ( Object.keys(userObjForm).length>0) {
             this.setState({ userObj: userObjForm })
         }
     }
@@ -45,8 +45,10 @@ export class UserEdit extends React.Component {
     handleFormSubmit = () => {
         let { userObj } = this.state;
         let { toggle } = this.props;
-        this.setState({ isFormLoder: true });
+       
         if (this.validator.allValid()) {
+            this.setState({ isFormLoder: true });
+            console.log('dddd',userObj)
             let apiCall = userObj.hasOwnProperty('id') ? updateUser(Object.assign({}, userObj), userObj.id) : createAuthentication(userObj)
             apiCall.then((data) => {
                 this.setState({ isFormLoder: false });
@@ -108,7 +110,7 @@ export class UserEdit extends React.Component {
                         <div className="col-md-6">
                             <div className="mb-3">
                                 <label className="form-label">Phone</label>
-                                <NormalInput placeholder="Enter Phone" name="Phone" onChange={this.handleInputChange} value={userObj.phone} />
+                                <NormalInput placeholder="Enter Phone" name="phone" onChange={this.handleInputChange} value={userObj.phone} />
                                 {this.validator.message('Phone', userObj.phone, 'required|phone')}
                             </div>
                         </div>

@@ -1,9 +1,16 @@
-import {STATUS} from '../service/constants'
 
-export const supplierObj = {
+
+export const productObj = {
 
     name: '',
     code:'',
+    totalM:0,
+    wastageM:0,
+    inhouseDate:'',
+    amount:0,
+    totalLengthMeter:'',
+    supplierId:'',
+    completedDate:"",
     cutting: {
         small: 0,
         medium: 0,
@@ -29,8 +36,7 @@ export const supplierObj = {
         medium: 0,
         large: 0,
     },
-    wastage:0,
-    status:STATUS.ACTIVE,
+    status:'',
     createdBy:{
         userId:'',
         date:new Date().toISOString(),

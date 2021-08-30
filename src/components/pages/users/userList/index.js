@@ -63,7 +63,7 @@ export class UserList extends React.Component {
             updateUser(Object.assign({},userObj), userObj.id).then((data) => {
                 alertModel.isShow = false;
                 alertModel.actionLoder=false;
-                this.setState({ isFormLoder: false,alertModel });
+                this.setState({ isFormLoder: false,alertModel,deleteUserIndex:-1 });
                 // toggle('success')
             }).catch((error) => {
                 this.setState({ isFormLoder: false });

@@ -55,7 +55,7 @@ const routers = [
       },
       {
         component: "Product",
-        path: "/product",
+        path: "/product/:supplierId",
         auth: false,
         exact: true
       }

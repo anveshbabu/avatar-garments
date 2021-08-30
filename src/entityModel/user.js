@@ -13,11 +13,13 @@ export const userObj = {
     status: STATUS.ACTIVE,
     createdBy: {
         userId: '',
-        date: new Date()
+        date: new Date().toISOString(),
+        name:''
     },
     updatedBy: {
         userId: '',
-        date: ''
+        date: '',
+        name:''
     }
 
 }

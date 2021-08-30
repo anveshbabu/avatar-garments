@@ -1,6 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 import { EXIST_LOCAL_STORAGE } from '../../service/constants'
-import {createUser} from '../user';
+import {createUser,getUserDetail} from '../user';
 
 export const createAuthentication= (body) => {
     return new Promise((resolve, reject) => {
@@ -36,9 +36,14 @@ export const createAuthentication= (body) => {
 export const userSignin  = ({username,password}) => {
     return new Promise((resolve, reject) => {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, username, password).then(({user:{accessToken}}) => {
+    signInWithEmailAndPassword(auth, username, password).then(({user:{accessToken,uid}}) => {
             // Signed in 
             localStorage.setItem(EXIST_LOCAL_STORAGE.AUTHTOKEN, accessToken);
+
+            getUserDetail(uid)
+
+
+            
             resolve(accessToken)
             // ...
         }).catch((error) => {

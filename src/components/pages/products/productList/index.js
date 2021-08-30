@@ -1,20 +1,48 @@
 import React from "react";
-import { NormalInput } from '../../../common'
+import { NormalInput,NormalButton } from '../../../common'
 import './productList.scss'
 import { Link } from "react-router-dom";
 import { ProductEdit } from '../productEdit'
+import { getAllProducts } from '../../../../api';
+import moment from 'moment';
 export class ProductList extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            isProductFormModal: false
+            isProductFormModal: false,
+            productList: [],
+            productEditObj:{}
         }
+    }
+
+    componentDidMount() {
+        this.getAllProductList();
+    }
+
+    getAllProductList = () => {
+        this.setState({ isFormLoder: true });
+        getAllProducts().then((productList) => {
+            this.setState({ isFormLoder: false, productList, isNodata: productList.length === 0 });
+        }).catch((error) => {
+            this.setState({ isFormLoder: false });
+            console.error(error)
+        });
+    }
+
+    handleTogleEditModule=(data)=>{
+        let { isProductFormModal } = this.state;
+        this.setState({ isProductFormModal: !isProductFormModal,productEditObj:{} })
+        if(data==='success'){
+            this.getAllProductList()
+        }
+    
     }
 
 
     render() {
-        let { isProductFormModal } = this.state;
+        let { match: { params: { supplierId } } } = this.props;
+        let { isProductFormModal,isNodata , productList,productEditObj } = this.state;
         return (
             <>
                 <div className="row mb-4">
@@ -23,6 +51,9 @@ export class ProductList extends React.Component {
                             <span className="input-group-text bi bi-search"></span>
                             <NormalInput />
                         </div>
+                    </div>
+                    <div className="col-md-6 text-end">
+                        <NormalButton label='Add New' className="btn-sm btn-primary" onClick={() => this.setState({ isProductFormModal: true })} />
                     </div>
                 </div>
                 <div className="row mb-2">
@@ -38,96 +69,101 @@ export class ProductList extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                <div className="col-md-4">
-                            <div className="card product-card">
-                                {/* <img src="..." className="card-img-top" alt="..." /> */}
-                                <div className="card-body">
-                                   
-                                    <h5 className="card-title">Raman & co   <small className="text-muted float-end d-flex">001</small></h5>
-                                  
-                                    <span className="text-danger float-end">wastage: 20M</span>
-                                    <span className="text-total">wastage: 20M</span>
-                                    {/* <hr> */}
-                                    {/* <div className="">
+                {!isNodata && productList.map(({ name, code = '',completedDate, totalLengthMeter,cutting,inhouseDate, stitching, ironing, packing,shipment, wastage, id ,updatedBy}, i) =>
+                    <div className="col-md-4">
+                        <div className="card product-card">
+                            {/* <img src="..." className="card-img-top" alt="..." /> */}
+                            <div className="card-body">
+
+                                <h5 className="card-title">R{name}   <small className="text-muted float-end d-flex">{code}</small></h5>
+
+                                <span className="text-danger float-end">wastage: {wastage}M</span>
+                                <span className="text-total">Total: {totalLengthMeter}M</span>
+                                {/* <hr> */}
+                                {/* <div className="">
                                     <h4 className="f5">wastage: <span className="text-danger">20M</span> </h4>
 
                                 </div> */}
-                                    <table className="table mt-2">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col"></th>
-                                                <th scope="col">Small</th>
-                                                <th scope="col">Medium</th>
-                                                <th scope="col">Large</th>
-                                                <th scope="col">Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <table className="table mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Small</th>
+                                            <th scope="col">Medium</th>
+                                            <th scope="col">Large</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                             <tr>
                                                 <td><strong>Cutting</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{cutting.small}</td>
+                                                <td>{cutting.medium}</td>
+                                                <td>{cutting.large}</td>
+                                                <td>{cutting.small + cutting.medium + cutting.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Stitching</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{stitching.small}</td>
+                                                <td>{stitching.medium}</td>
+                                                <td>{stitching.large}</td>
+                                                <td>{stitching.small + stitching.medium + stitching.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Ironing</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{ironing.small}</td>
+                                                <td>{ironing.medium}</td>
+                                                <td>{ironing.large}</td>
+                                                <td>{ironing.small + ironing.medium + ironing.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Packing</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{packing.small}</td>
+                                                <td>{packing.medium}</td>
+                                                <td>{packing.large}</td>
+                                                <td>{packing.small + packing.medium + packing.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Shipment</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{shipment.small}</td>
+                                                <td>{shipment.medium}</td>
+                                                <td>{shipment.large}</td>
+                                                <td>{shipment.small + shipment.medium + shipment.large}</td>
                                             </tr>
-                                            <tr>
-                                                <td><strong>In-house Date:</strong></td>
-                                                <td  colspan="4">12th Aug, 2021</td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Completed Date:</strong></td>
-                                                <td  colspan="4"> 12th Aug, 2021</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                               <p className="updated-text mb-0">Updated By <strong>Muralidharan</strong> on <strong>25th Aug, 2021</strong></p>
-                                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
-                                </div>
-                                <div className="text-center card-footer">
+                                        <tr>
+                                            <td><strong>In-house Date:</strong></td>
+                                            <td colspan="4">{moment(inhouseDate).format("Do MMM, YYYY")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Completed Date:</strong></td>
+                                            <td colspan="4">{moment(completedDate).format("Do MMM, YYYY")}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p className="updated-text mb-0">Updated By <strong>{updatedBy.name}</strong> on <strong>{moment(updatedBy.date).format("Do MMM, YYYY")}</strong></p>
+                                {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                            </div>
+                            <div className="text-center card-footer">
                                 <ul className="nav">
                                     <li className="nav-item">
                                         <Link className="nav-link text-primary" onClick={() => this.setState({ isProductFormModal: !isProductFormModal })}>View </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link text-success" onClick={() => this.setState({ isProductFormModal: !isProductFormModal })}>Edit</Link>
+                                        <Link className="nav-link text-success" onClick={() => this.setState({ isProductFormModal: !isProductFormModal,productEditObj:productList[i] })}>Edit</Link>
                                     </li>
                                     <li className="nav-item">
                                         <a className="nav-link text-danger" href="#">Delete</a>
                                     </li>
                                 </ul>
                             </div>
-                            </div>
                         </div>
+                    </div>
+                      )}
+                      {isNodata?<h4 className="text-center  mt-5">No data available</h4>:''}
                 </div>
-                <ProductEdit isShow={isProductFormModal} toggle={() => this.setState({ isProductFormModal: !isProductFormModal })} />
+                {isProductFormModal ?
+                    <ProductEdit supplierId={supplierId} productEditObj={productEditObj} isShow={isProductFormModal}  toggle={this.handleTogleEditModule} />
+                    : ""}
             </>
         );
     }

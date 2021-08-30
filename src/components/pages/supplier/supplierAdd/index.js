@@ -3,7 +3,7 @@ import { NormalInput, NormalButton } from '../../../common'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { supplierObj } from '../../../../entityModel/supplier';
 import './supplierAdd.scss';
-import { createSupplier } from '../../../../api/supplier';
+import { createSupplier, updateSupplier } from '../../../../api/supplier';
 import SimpleReactValidator from 'simple-react-validator';
 export class SupplierAdd extends React.Component {
     constructor(props) {
@@ -17,7 +17,13 @@ export class SupplierAdd extends React.Component {
         });
     }
 
-
+    componentDidMount() {
+        let { supplierObjForm } = this.props;
+        console.log(supplierObjForm)
+        if (!!supplierObjForm) {
+            this.setState({ supplierObj: supplierObjForm })
+        }
+    }
 
     handleInputChange = (event) => {
         let { supplierObj } = this.state;
@@ -38,7 +44,9 @@ export class SupplierAdd extends React.Component {
         supplierObj.code = Math.floor(Math.random() * 1000000);
         this.setState({ isFormLoder: true });
         if (this.validator.allValid()) {
-            createSupplier(supplierObj).then((data) => {
+            // createSupplier(supplierObj).then((data) => {
+            let apiCall = supplierObj.hasOwnProperty('id') ? updateSupplier(Object.assign({}, supplierObj), supplierObj.id) : createSupplier(supplierObj)
+            apiCall.then((data) => {
                 this.setState({ isFormLoder: false });
                 toggle('success')
             }).catch((error) => {
@@ -83,7 +91,7 @@ export class SupplierAdd extends React.Component {
 
                 </ModalBody>
                 <ModalFooter>
-                    <NormalButton label="Save" loader={isFormLoder} onClick={this.handleFormSubmit} />
+                    <NormalButton label={supplierObj.hasOwnProperty('id') ?"Update":"Save"} loader={isFormLoder} onClick={this.handleFormSubmit} />
                     <NormalButton label="Cancel" className="btn-danger" disabled={isFormLoder} onClick={toggle} />
                 </ModalFooter>
             </Modal>

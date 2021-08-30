@@ -19,11 +19,24 @@ export const STATUS={
     IN_ACTIVE: 'inactive',
     DELETED: 'deleted'
 }
+export const METER={
+    SMALL: 2,
+    MEDIUM: 4,
+    LARGE: 6
+}
+
+export const PRODUCT_STATUS ={
+    IN_PROGRESS:'In Progress',
+    COMPLETED:'Completed'
+}
 
 export const CONFIG ={
     API_URL: process.env.NODE_ENV === 'development' ?process.env.REACT_APP_DEV_URL:process.env.REACT_APP_PROD_URL,
     GRAPHQL_URL:process.env.REACT_APP_GRAPHQL_URL,
-}
+};
+
+export const CURRENT_USER='currentUserObj'
+
 
 
 

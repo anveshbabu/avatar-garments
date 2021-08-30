@@ -4,6 +4,26 @@
         .card-title {
             margin: 0;
             font-size: 1.125rem;
+            display: flex;
+            label{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: calc(100% - 25px);
+                margin-right: 5px;
+            }
+            .edit-icon{
+                cursor: pointer;
+                display: none;
+              
+            }
+            &:hover{
+                .edit-icon{
+                    display: unset;
+                  
+                }
+            }
+           
         }
         .table{
             tr{

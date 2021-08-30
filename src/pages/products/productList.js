@@ -10,7 +10,7 @@ export class Product extends React.Component {
 
         </h4>
       
-      <ProductList/>
+      <ProductList {...this.props}/>
       </div>
     );
   }
