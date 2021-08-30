@@ -10,6 +10,7 @@ import SimpleReactValidator from 'simple-react-validator';
 // import { userSignin } from "../../../redux/actions/login";
 import { history } from "../../../helpers";
 import { EXIST_LOCAL_STORAGE } from "../../../service/constants";
+import { userSignin } from '../../../api'
 export class Login extends React.Component {
   state = {
     loginForm: {
@@ -72,7 +73,25 @@ export class Login extends React.Component {
     if (this.validator.allValid()) {
       this.validator.hideMessages();
       this.setState({ isFormLoder: true });
-      history.push(`/dashboard`)
+      userSignin(loginForm).then((data) => {
+        this.setState({ isFormLoder: false });
+        if (!!data) {
+          if (isKeepMe) {
+            keepMeObj.username = loginForm.username;
+            keepMeObj.password = loginForm.password;
+            this.setState({ keepMeObj });
+            localStorage.setItem(EXIST_LOCAL_STORAGE.IS_KEEP_ME, 1);
+            localStorage.setItem(EXIST_LOCAL_STORAGE.KEEP_ME_OBJ, JSON.stringify(keepMeObj));
+          } else {
+            localStorage.setItem(EXIST_LOCAL_STORAGE.IS_KEEP_ME, 0);
+            localStorage.setItem(EXIST_LOCAL_STORAGE.KEEP_ME_OBJ, JSON.stringify(keepMeObj));
+          }
+          history.push(`/dashboard`);
+        }
+      }).catch((error) => {
+        console.error(error);
+        this.setState({ isFormLoder: false });
+      });
 
     } else {
       this.validator.showMessages();
@@ -93,10 +112,10 @@ export class Login extends React.Component {
       <>
         <div class="row login-page">
           <div class="col-md-9 col-lg-8 mx-auto">
-           
+
             <div className="row mb-3">
               <div className="col-md-12">
-              <img width="72" height="57" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"/>
+                <img width="72" height="57" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" />
               </div>
             </div>
             <div className="row mb-3">
@@ -107,7 +126,7 @@ export class Login extends React.Component {
 
             <div className="row">
               <div className="col-md-12 mb-3">
-              <div class="form-group mb-0">
+                <div class="form-group mb-0">
                   <label>Login</label>
                   <NormalInput
                     placeholder="Email address or phone number"
@@ -116,7 +135,7 @@ export class Login extends React.Component {
                     className="form-control border-left-0"
                     onChange={this.handleInputChange}
                   />
-                 
+
                 </div>
                 {this.validator.message('User Name', loginForm.username, 'required')}
               </div>
@@ -134,12 +153,12 @@ export class Login extends React.Component {
                     className="form-control border-left-0  border-right-0"
                     onChange={this.handleInputChange}
                   />
-                 
+
                 </div>
                 {this.validator.message('Password', loginForm.password, 'required')}
-                  {isResErr ?
-                    <span className="text-danger validNo fs14">
-                      Email ID or Password entered is incorrect.
+                {isResErr ?
+                  <span className="text-danger validNo fs14">
+                    Email ID or Password entered is incorrect.
                   </span> : ''}
               </div>
             </div>

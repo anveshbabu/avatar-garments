@@ -1,9 +1,40 @@
 import React from "react";
-import { NormalInput } from '../../../common'
+import { NormalInput, NormalButton } from '../../../common'
 import './supplierList.scss';
-import { history } from '../../../../helpers'
+import { history } from '../../../../helpers';
+import { isAuthenticated } from '../../../../service/utilities';
+import { SupplierAdd } from '../supplierAdd';
+import {getAllSupplier} from '../../../../api/supplier'
+
 export class SupplierList extends React.Component {
+
+    state = {
+        isOpenAdd: false,
+        isFormLoder:true,
+        supplierList:[]
+
+
+    }
+
+    componentDidMount(){
+      this.getAllSupplierList()
+    };
+
+
+    getAllSupplierList=()=>{
+        this.setState({ isFormLoder: true });
+        getAllSupplier().then((supplierList) => {
+            console.log('supplierList--------->',supplierList)
+            this.setState({ isFormLoder: false,supplierList });
+        }).catch((error) => {
+            this.setState({ isFormLoder: false });
+            console.error(error)
+        });
+    }
+
     render() {
+        let { isOpenAdd,supplierList} = this.state;
+        console.log('isAuthenticated--------->', isAuthenticated())
         return (
             <>
                 <div className="row mb-4">
@@ -13,18 +44,21 @@ export class SupplierList extends React.Component {
                             <NormalInput />
                         </div>
                     </div>
+                    <div className="col-md-6 text-end">
+                        <NormalButton label='Add New' className="btn-sm btn-primary" onClick={() => this.setState({ isOpenAdd: true })} />
+                    </div>
                 </div>
                 <div className="row">
-                    {['Raman & co', 'M & sons'].map((number) =>
-                        <div className="col-md-4">
+                    {supplierList.map(({name,code='',cutting,stitching,ironing,packing,wastage,id}, i) =>
+                        <div className="col-md-4 mb-4" key={id}>
                             <div className="card product-card">
                                 {/* <img src="..." className="card-img-top" alt="..." /> */}
                                 <div className="card-body">
-                                   
-                                    <h5 className="card-title">Raman & co   </h5>
-                                    <small className="text-muted">001</small>
-                                    <span className="text-danger float-end">wastage: 20M</span>
-                                                              {/* <hr> */}
+
+                                    <h5 className="card-title">{name}</h5>
+                                    <small className="text-muted">{code}</small>
+                                    <span className="text-danger float-end">{code}</span>
+                                    {/* <hr> */}
                                     {/* <div className="">
                                     <h4 className="f5">wastage: <span className="text-danger">20M</span> </h4>
 
@@ -42,17 +76,17 @@ export class SupplierList extends React.Component {
                                         <tbody>
                                             <tr>
                                                 <td><strong>Cutting</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{cutting.small}</td>
+                                                <td>{cutting.medium}</td>
+                                                <td>{cutting.large}</td>
+                                                <td>{cutting.small+cutting.medium+cutting.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Stitching</strong></td>
-                                                <td>2</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>10</td>
+                                                <td>{stitching.small}</td>
+                                                <td>{stitching.medium}</td>
+                                                <td>{stitching.large}</td>
+                                                <td>{stitching.small+stitching.medium+stitching.large}</td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Ironing</strong></td>
@@ -75,10 +109,10 @@ export class SupplierList extends React.Component {
                                                 <td>3</td>
                                                 <td>10</td>
                                             </tr>
-                                         
+
                                         </tbody>
                                     </table>
-                             
+
                                 </div>
                                 <div className="text-center card-footer">
                                     <button className="btn btn-primary btn-sm" type="button" onClick={() => history.push('/supplier/product')}>Manage Supplier</button>
@@ -87,6 +121,7 @@ export class SupplierList extends React.Component {
                         </div>
                     )}
                 </div>
+                <SupplierAdd isShow={isOpenAdd} toggle={() => this.setState({ isOpenAdd: false })} />
             </>
         );
     }

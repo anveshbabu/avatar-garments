@@ -1,4 +1,4 @@
 
 
-export {LOGIN_TYPE,EXIST_LOCAL_STORAGE,CONFIG,STATUS} from './app'
+export {LOGIN_TYPE,EXIST_LOCAL_STORAGE,CONFIG,STATUS,USER_TYPE} from './app'
 export {MODAL} from './modal'

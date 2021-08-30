@@ -1,6 +1,10 @@
 export const LOGIN_TYPE ={
     ADMIN:'admin'
 }
+export const USER_TYPE ={
+    ADMIN:'Admin',
+    USER:'User'
+}
 
 export const EXIST_LOCAL_STORAGE ={
     AUTHTOKEN:'AuthToken',

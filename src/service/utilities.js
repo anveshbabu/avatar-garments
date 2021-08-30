@@ -1,23 +1,12 @@
 
-/**
-*
-* Disclaimer: Source code mentioned below is(are) Intellectual Property of
-* Crayon Data Holdings Limited (including its subsidiaries and affiliates).
-* Crayon Data Holdings Limited reserves right to own and control it the way
-* it may deem fit. You must refrain from use, access, read, modify, add or
-* delete, sell or use in any other package or programme pertaining to such
-* source code without explicit prior written approval of
-* Crayon Data Holding Limited. Breach of the same shall attract penalty as
-* applicable.
-*
-*/
 import axios from 'axios';
-// import { history } from '../';
-
+import jwtDecode from 'jwt-decode';
+import { EXIST_LOCAL_STORAGE } from './constants'
+import { isJwtExpired } from 'jwt-check-expiration';
 export const axiosInstance = axios.create({
   // baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
-   
+
   }
 });
 
@@ -28,3 +17,31 @@ export const logout = () => {
   // history.push('/');
   window.location.reload(true);
 };
+
+export const isAuthenticated = (req, res, next) => {
+  let accessToken = localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN);
+  if (!!accessToken) {
+    const jwtDecoded = jwtDecode(accessToken);
+    if (new Date() < new Date(jwtDecoded.exp * 1e3)) {
+      return true;
+    } else {
+      localStorage.removeItem(EXIST_LOCAL_STORAGE);
+      return false
+    }
+
+  } else {
+    console.error('session expired')
+  }
+
+}
+
+export const jwtDecodeDetails = (req, res, next) => {
+  let accessToken = localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN);
+  if (!!accessToken) {
+    return jwtDecode(accessToken);
+
+  } else {
+    console.error('Jwd null')
+  }
+
+}

@@ -61,7 +61,7 @@ export class Dialog extends Component {
 
     render() {
 
-        let { show, onToggle, type, title, sucessBtn = 'deactivate', cancleBtn = "cancel", btn = false, subText = '' } = this.props
+        let { show, onToggle, type, title, sucessBtn = 'deactivate', cancleBtn = "cancel", btn = false, subText = '',actionLoder=false } = this.props
         let { modalImg = "/avatar-garments/images/alert/warning.svg" } = this.state;
         return (
             <Modal isOpen={show} className={'modal-dialog-centered app-alert-modal'}>
@@ -81,8 +81,8 @@ export class Dialog extends Component {
                 </ModalBody>
                 <AbIf show={type === MODAL.TYPE.WARNING || btn}>
                     <ModalFooter className="text-center">
-                        <NormalButton label={cancleBtn} className="btn-secondary alert-btn" onClick={() => onToggle(false)} />
-                        <NormalButton label={sucessBtn} className="btn-primary alert-btn" onClick={() => onToggle(true)} />
+                        <NormalButton label={cancleBtn} disabled={actionLoder}  className="btn-secondary alert-btn" onClick={() => onToggle(false)} />
+                        <NormalButton label={sucessBtn} loader={actionLoder} className="btn-primary alert-btn" onClick={() => onToggle(true)} />
                     </ModalFooter>
                 </AbIf>
             </Modal>
