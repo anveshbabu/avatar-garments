@@ -19,8 +19,7 @@ export class SupplierAdd extends React.Component {
 
     componentDidMount() {
         let { supplierObjForm } = this.props;
-        console.log(supplierObjForm)
-        if (!!supplierObjForm) {
+        if (Object.keys(supplierObjForm).length > 0) {
             this.setState({ supplierObj: supplierObjForm })
         }
     }
@@ -91,7 +90,7 @@ export class SupplierAdd extends React.Component {
 
                 </ModalBody>
                 <ModalFooter>
-                    <NormalButton label={supplierObj.hasOwnProperty('id') ?"Update":"Save"} loader={isFormLoder} onClick={this.handleFormSubmit} />
+                    <NormalButton label={supplierObj.hasOwnProperty('id') ? "Update" : "Save"} loader={isFormLoder} onClick={this.handleFormSubmit} />
                     <NormalButton label="Cancel" className="btn-danger" disabled={isFormLoder} onClick={toggle} />
                 </ModalFooter>
             </Modal>

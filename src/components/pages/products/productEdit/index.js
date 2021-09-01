@@ -20,7 +20,7 @@ export class ProductEdit extends React.Component {
     }
     componentDidMount() {
         let { productEditObj } = this.props;
-        if (!!productEditObj) {
+        if (Object.keys(productEditObj).length > 0) {
             this.setState({ productObj: productEditObj })
         }
     }
