@@ -15,7 +15,6 @@ export class NormalCheckbox extends Component {
       disabled = false,
 
     } = this.props;
-    // console.log(this.props)
     return (
     
         <div class={`custom-control custom-checkbox ${className}`}>

@@ -60,7 +60,6 @@ export class NormalDropdown extends React.Component {
     const value = target.value;
     let { optionsList } = this.props;
     const result = optionsList.filter(({ label }) => label == value);
-    console.log('result-------->', result)
     let filterValue = !!value ? result : optionsList;
     this.setState({ optionsList: filterValue, searchValue: value })
 

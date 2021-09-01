@@ -10,9 +10,10 @@ export class SupplierList extends React.Component {
 
     state = {
         isOpenAdd: false,
-        isFormLoder: true,
+        isLoder: true,
         supplierList: [],
-        isNodata:false
+        isNodata: false,
+        searchName:''
 
 
     }
@@ -23,32 +24,49 @@ export class SupplierList extends React.Component {
 
 
     getAllSupplierList = () => {
-        this.setState({ isFormLoder: true });
+        this.setState({ isLoder: true });
         getAllSupplier().then((supplierList) => {
-            this.setState({ isFormLoder: false, supplierList,isNodata:supplierList.length===0 });
+            console.log('supplierList---->', supplierList.length)
+            this.setState({ isLoder: false, supplierList, isNodata: supplierList.length === 0 });
         }).catch((error) => {
-            this.setState({ isFormLoder: false });
+            this.setState({ isLoder: false });
             console.error(error)
         });
     }
 
-    handleTogleEditModule=(data)=>{
-        this.setState({ isOpenAdd: false,supplierObj:{} })
-        if(data==='success'){
+    handleTogleEditModule = (data) => {
+        this.setState({ isOpenAdd: false, supplierObj: {} })
+        if (data === 'success') {
             this.getAllSupplierList()
         }
-    
+
+    }
+
+    handleSearch=(event)=>{
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        let {supplierList}=this.state;
+        console.log(value)
+        if(!!value){
+            const result = !!value?[...supplierList].filter(({name}) => name.toLowerCase().includes(value.toLowerCase())):supplierList;
+            this.setState({supplierList:result, isNodata: result.length === 0,searchName:value });
+        }else{
+            this.setState({searchName:value });
+            this.getAllSupplierList()
+        }
+      
     }
 
     render() {
-        let { isOpenAdd, supplierList, supplierObj,isNodata } = this.state;
+        let { isOpenAdd, supplierList, supplierObj, isNodata,isLoder,searchName } = this.state;
         return (
             <>
                 <div className="row mb-4">
                     <div className="col-md-6">
                         <div className="input-group search-input mb-3">
                             <span className="input-group-text bi bi-search"></span>
-                            <NormalInput />
+                            <NormalInput  onChange={this.handleSearch} value={searchName}  />
                         </div>
                     </div>
                     <div className="col-md-6 text-end">
@@ -56,7 +74,29 @@ export class SupplierList extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    {!isNodata && supplierList.map(({ name, code = '', cutting, stitching, ironing, packing,shipment, wastage, id }, i) =>
+                    {isLoder?
+                    <>
+                     {[1,2,3,4,5,6].map((data, i) =>
+                    <div className="col-md-4 mb-4 ">
+                        <div className="card product-card loder-card">
+                            {/* <img src="..." className="card-img-top" alt="..." /> */}
+                            <div className="card-body">
+
+                                <h5 className="card-title skeletonLoader">&nbsp;</h5>
+                                <p className="text-muted title-sub skeletonLoader">&nbsp;</p>
+  
+
+                            </div>
+                            <div className="text-center card-footer">
+                                <button className="btn btn-sm skeletonLoader" type="button">&nbsp;</button>
+                            </div>
+                        </div>
+                    </div>
+                     )}
+                     </>
+                    :
+                    <>
+                    {!isNodata && supplierList.map(({ name, code = '', cutting, stitching, ironing, packing, shipment, wastageM, id }, i) =>
                         <div className="col-md-4 mb-4" key={id}>
                             <div className="card product-card">
                                 {/* <img src="..." className="card-img-top" alt="..." /> */}
@@ -64,7 +104,7 @@ export class SupplierList extends React.Component {
 
                                     <h5 className="card-title"><label>{name}</label> <i className="bi bi-pencil-fill text-primary edit-icon" onClick={() => this.setState({ isOpenAdd: true, supplierObj: supplierList[i] })} /></h5>
                                     <small className="text-muted">{code}</small>
-                                    <span className="text-danger float-end">wastage:{wastage}M</span>
+                                    <span className="text-danger float-end">wastage:{wastageM}M</span>
                                     {/* <hr> */}
                                     {/* <div className="">
                                     <h4 className="f5">wastage: <span className="text-danger">20M</span> </h4>
@@ -122,12 +162,12 @@ export class SupplierList extends React.Component {
 
                                 </div>
                                 <div className="text-center card-footer">
-                                    <button className="btn btn-primary btn-sm" type="button" onClick={() => history.push('/supplier/product/'+id)}>Manage Supplier</button>
+                                    <button className="btn btn-primary btn-sm" type="button" onClick={() => history.push('/supplier/product/' + id)}>Manage Supplier</button>
                                 </div>
                             </div>
                         </div>
-                    )}
-                    {isNodata?<h4 className="text-center  mt-5">No data available</h4>:''}
+                    )}</>}
+                    {isNodata ? <h4 className="text-center  mt-5">No data available</h4> : ''}
                 </div>
                 {isOpenAdd ?
                     <SupplierAdd isShow={isOpenAdd} supplierObjForm={supplierObj} toggle={this.handleTogleEditModule} /> : ''}

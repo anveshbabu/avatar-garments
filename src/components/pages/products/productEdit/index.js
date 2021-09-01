@@ -183,6 +183,7 @@ export class ProductEdit extends React.Component {
                             <div className="mb-3">
                                 <label className="form-label">Total Meters Used</label>
                                 <NormalInput type="number" placeholder="Total Meters Used" disabled={true} onChange={() => { }} value={(Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE)} />
+                                {this.validator.message('Shipment(S)',(Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE),`required|between:0,${productObj.totalLengthMeter},num`, { messages: { between: 'The Total Meters may not be greater than Total Length in meters.' } })}
                             </div>
                         </div>
                     </div>

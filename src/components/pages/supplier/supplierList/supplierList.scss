@@ -1,4 +1,28 @@
 @import "../../../../assets/scss/abstracts/abstracts-dir.scss";
+.loder-card{
+    .card-body {
+    height: 355px;
+    }
+    .skeletonLoader{
+        border-radius: 12px;
+        margin-bottom: 15px !important;
+    }
+    
+    .card-title {
+        width: 50%;
+       
+        
+    }
+    .title-sub{
+        height: 7px;
+        width: 35%;
+    }
+    .btn{
+        width: 122px;
+        margin-bottom: 0 !important;
+    }
+
+}
 .product-card {
     .card-body {
         .card-title {

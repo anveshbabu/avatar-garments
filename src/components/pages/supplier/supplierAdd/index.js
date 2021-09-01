@@ -19,7 +19,7 @@ export class SupplierAdd extends React.Component {
 
     componentDidMount() {
         let { supplierObjForm } = this.props;
-        if (Object.keys(supplierObjForm).length > 0) {
+        if (!!supplierObjForm && Object.keys(supplierObjForm).length > 0) {
             this.setState({ supplierObj: supplierObjForm })
         }
     }
@@ -41,9 +41,9 @@ export class SupplierAdd extends React.Component {
         let { supplierObj } = this.state;
         let { toggle } = this.props;
         supplierObj.code = Math.floor(Math.random() * 1000000);
-        this.setState({ isFormLoder: true });
+
         if (this.validator.allValid()) {
-            // createSupplier(supplierObj).then((data) => {
+            this.setState({ isFormLoder: true });
             let apiCall = supplierObj.hasOwnProperty('id') ? updateSupplier(Object.assign({}, supplierObj), supplierObj.id) : createSupplier(supplierObj)
             apiCall.then((data) => {
                 this.setState({ isFormLoder: false });
@@ -64,8 +64,8 @@ export class SupplierAdd extends React.Component {
 
 
     render() {
-        let { isShow = false, toggle = '', isFormLoder } = this.props;
-        let { supplierObj } = this.state;
+        let { isShow = false, toggle = '' } = this.props;
+        let { supplierObj,isFormLoder } = this.state;
         return (
 
 

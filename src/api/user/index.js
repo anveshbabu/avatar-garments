@@ -1,27 +1,27 @@
-import { collection, addDoc,setDoc , updateDoc, query, doc, where, getDocs,getDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, updateDoc, query, doc, where, getDocs, getDoc } from "firebase/firestore";
 import { getAuth, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { isAuthenticated, jwtDecodeDetails } from '../../service/utilities';
 import { STATUS } from '../../service/constants'
 import { CURRENT_USER } from '../../service/constants'
-
+import { Toast } from '../../service/toast';
 
 
 export const createUser = (body) => {
-    console.log('createUser')
     return new Promise(async (resolve, reject) => {
         try {
             if (isAuthenticated()) {
-                let { user_id,userObj:{fName,lName} } = jwtDecodeDetails();
-                body.createdBy.name = fName+" "+lName;
+                let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
+                body.createdBy.name = fName + " " + lName;
                 body.createdBy.userId = user_id;
-                const docRef = await setDoc (doc(getFirestore(), "user", body.userId), body);
+                const docRef = await setDoc(doc(getFirestore(), "user", body.userId), body);
                 resolve(docRef)
             } else {
 
             }
 
         } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
             reject(e)
             console.error("Error adding document: ", e);
         }
@@ -29,13 +29,13 @@ export const createUser = (body) => {
 }
 
 export const updateUser = (body, id) => {
-  
+
     return new Promise(async (resolve, reject) => {
         delete body.id;
         try {
             if (isAuthenticated) {
-                let { user_id,userObj:{fName,lName} } = jwtDecodeDetails();
-                body.updatedBy.name = fName+" "+lName;
+                let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
+                body.updatedBy.name = fName + " " + lName;
                 body.updatedBy.date = new Date().toISOString();
                 body.updatedBy.userId = user_id;
                 const docRef = await updateDoc(doc(getFirestore(), "user", id), body);
@@ -45,6 +45,7 @@ export const updateUser = (body, id) => {
             }
 
         } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
             console.error("Error adding document: ", e);
             reject(e)
 
@@ -53,7 +54,6 @@ export const updateUser = (body, id) => {
 }
 
 export const getAllUser = (body) => {
-    console.log(body)
     const auth = getAuth();
     const user = auth.currentUser;
     return new Promise(async (resolve, reject) => {
@@ -73,6 +73,7 @@ export const getAllUser = (body) => {
             }
 
         } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
             reject(e)
             console.error("Error adding document: ", e);
         }
@@ -81,7 +82,6 @@ export const getAllUser = (body) => {
 
 
 export const getUserDetail = (body) => {
-    console.log(body)
     const auth = getAuth();
     const user = auth.currentUser;
     return new Promise(async (resolve, reject) => {
@@ -89,22 +89,22 @@ export const getUserDetail = (body) => {
             if (isAuthenticated) {
                 // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
 
-                const docSnap = await  getDoc(doc(getFirestore(), "user", body));
+                const docSnap = await getDoc(doc(getFirestore(), "user", body));
                 if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data());
                     localStorage.setItem(CURRENT_USER, JSON.stringify(docSnap.data()));
                     resolve(docSnap.data())
-                  } else {
+                } else {
                     // doc.data() will be undefined in this case
-                    console.log("No such document!");
-                  }
-                  
-              
+
+                }
+
+
             } else {
 
             }
 
         } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
             reject(e)
             console.error("Error adding document: ", e);
         }

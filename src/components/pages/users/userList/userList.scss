@@ -1,7 +1,7 @@
-.user-list{
-    thead{
-        tr{
-            th{
+.user-list {
+    thead {
+        tr {
+            th {
                 font-size: 14px;
                 font-weight: bold;
                 color: #52565a;
@@ -9,13 +9,24 @@
             }
         }
     }
-    .active{
+    .active {
         color: #00c9a7;
     }
     .de-active {
-        color: #ed4c78!important;
+        color: #ed4c78 !important;
     }
-    .status-text{
+    .status-text {
         font-weight: 500;
+    }
+}
+
+.loader-body {
+    tr {
+        td {
+            label {
+                width: 50%;
+                height: 7px;
+            }
+        }
     }
 }

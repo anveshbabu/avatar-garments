@@ -23,7 +23,8 @@ export class Login extends React.Component {
     keepMeObj: {
       username: "",
       password: "",
-    }
+    },
+    isResErr:''
   };
 
 
@@ -89,8 +90,14 @@ export class Login extends React.Component {
           history.push(`/dashboard`);
         }
       }).catch((error) => {
+        if(error==='auth/wrong-password'){
+          this.setState({ isFormLoder: false });
+
+        }else{
+
+        }
         console.error(error);
-        this.setState({ isFormLoder: false });
+        this.setState({ isFormLoder: false ,isResErr:error});
       });
 
     } else {
@@ -138,6 +145,10 @@ export class Login extends React.Component {
 
                 </div>
                 {this.validator.message('User Name', loginForm.username, 'required')}
+                {['auth/user-not-found', 'auth/invalid-email'].includes(isResErr) ?
+                  <span className="text-danger validNo fs14">
+                  Sorry, your email is incorrect. Please try again
+                  </span> : ''}
               </div>
             </div>
 
@@ -156,9 +167,9 @@ export class Login extends React.Component {
 
                 </div>
                 {this.validator.message('Password', loginForm.password, 'required')}
-                {isResErr ?
+                {isResErr=='auth/wrong-password' ?
                   <span className="text-danger validNo fs14">
-                    Email ID or Password entered is incorrect.
+                  Sorry, your password is incorrect. Please try again
                   </span> : ''}
               </div>
             </div>
