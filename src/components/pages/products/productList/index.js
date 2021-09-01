@@ -70,7 +70,7 @@ export class ProductList extends React.Component {
                 </div>
                 <div className="row">
                 {!isNodata && productList.map(({ name, code = '',completedDate, totalLengthMeter,cutting,inhouseDate, stitching, ironing, packing,shipment, wastage, id ,updatedBy}, i) =>
-                    <div className="col-md-4">
+                    <div className="col-md-4 mb-4">
                         <div className="card product-card">
                             {/* <img src="..." className="card-img-top" alt="..." /> */}
                             <div className="card-body">

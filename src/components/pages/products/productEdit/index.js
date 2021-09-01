@@ -61,7 +61,7 @@ export class ProductEdit extends React.Component {
     handleFormSubmit = () => {
         let { productObj } = this.state;
         let { toggle, supplierId } = this.props;
-        this.setState({ isFormLoder: true });
+      
         productObj.supplierId = supplierId;
         productObj.code =Math.floor(Math.random() * 1000000);
         productObj.completedDate =productObj.status === PRODUCT_STATUS.COMPLETED?new Date().toISOString():''
@@ -69,6 +69,7 @@ export class ProductEdit extends React.Component {
         productObj.wastageM = Number(productObj.totalLengthMeter) - ((Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE));
 
         if (this.validator.allValid()) {
+            this.setState({ isFormLoder: true });
             let apiCall = productObj.hasOwnProperty('id') ? updateProduct(Object.assign({}, productObj), productObj.id) : createProduct(productObj)
             apiCall.then((data) => {
                 this.setState({ isFormLoder: false });
