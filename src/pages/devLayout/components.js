@@ -148,7 +148,7 @@ export class Components extends React.Component {
             <AppBack label="Back"/>
                 <div className="card mb-4" >
                     <div className="card-header">
-                        <div class="media">
+                        <div className="media">
                             <img className="mr-3" src="/icon/user-2.svg" alt="Generic placeholder image" />
                             <div className="media-body">
                                 <h4>Form</h4>
@@ -197,8 +197,8 @@ export class Components extends React.Component {
 
 
                 {/* //NormalButton */}
-                <div class="card mb-4" >
-                    <div class="card-header">
+                <div className="card mb-4" >
+                    <div className="card-header">
                         <h4>Button </h4>
                     </div>
 
@@ -275,8 +275,8 @@ export class Components extends React.Component {
                 </div>
 
 
-                <div class="card" >
-                    <div class="card-header">
+                <div className="card" >
+                    <div className="card-header">
                         <h4>table</h4>
                     </div>
 

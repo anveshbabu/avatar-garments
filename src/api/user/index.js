@@ -33,7 +33,7 @@ export const updateUser = (body, id) => {
     return new Promise(async (resolve, reject) => {
         delete body.id;
         try {
-            if (isAuthenticated) {
+            if (isAuthenticated()) {
                 let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
                 body.updatedBy.name = fName + " " + lName;
                 body.updatedBy.date = new Date().toISOString();
@@ -58,7 +58,7 @@ export const getAllUser = (body) => {
     const user = auth.currentUser;
     return new Promise(async (resolve, reject) => {
         try {
-            if (isAuthenticated) {
+            if (isAuthenticated()) {
                 // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
 
                 const querySnapshot = await getDocs(query(collection(getFirestore(), "user"), where("status", "!=", STATUS.DELETED)));
@@ -86,7 +86,7 @@ export const getUserDetail = (body) => {
     const user = auth.currentUser;
     return new Promise(async (resolve, reject) => {
         try {
-            if (isAuthenticated) {
+            if (isAuthenticated()) {
                 // const querySnapshot = getDocs(query(collection(getFirestore(), "user"), where("status", "==", STATUS.DELETED)))
 
                 const docSnap = await getDoc(doc(getFirestore(), "user", body));

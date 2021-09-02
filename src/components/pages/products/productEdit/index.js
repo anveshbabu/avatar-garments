@@ -1,18 +1,19 @@
 import React from "react";
-import { NormalInput,NormalSelect,NormalButton } from '../../../common'
+import { NormalInput, NormalSelect, NormalButton } from '../../../common'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './productEdit.scss';
 import { productObj } from '../../../../entityModel/product';
 import SimpleReactValidator from 'simple-react-validator';
 import { USER_TYPE, PRODUCT_STATUS, METER } from '../../../../service/constants';
-import {createProduct,updateProduct} from '../../../../api/'
+import { createProduct, updateProduct } from '../../../../api/'
 export class ProductEdit extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
             isFormLoder: false,
-            productObj
+            productObj,
+            totalMeterUsed: ''
         }
         this.validator = new SimpleReactValidator({
             className: 'text-danger'
@@ -25,13 +26,12 @@ export class ProductEdit extends React.Component {
         }
     }
 
-    
+
     handleInputChange = (event) => {
         let { productObj } = this.state;
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name.split(".").length > 1 ? target.name.split(".") : target.name;
-        console.log(value,name)
 
         if (!Array.isArray(name)) {
             this.setState({
@@ -39,9 +39,9 @@ export class ProductEdit extends React.Component {
                     ...productObj,
                     [name]: value
                 }
-            }, () => console.log(productObj));
+            });
 
-            
+
         } else {
 
             this.setState({
@@ -52,8 +52,14 @@ export class ProductEdit extends React.Component {
                         [name[1]]: Number(value)
                     }
                 }
-            }, () => console.log(productObj))
+            });
+            if (name[0] === 'cutting') {
+                let totalMeterUsed = (Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE)
+                this.setState({ totalMeterUsed })
+            }
         }
+
+
 
     }
 
@@ -61,10 +67,10 @@ export class ProductEdit extends React.Component {
     handleFormSubmit = () => {
         let { productObj } = this.state;
         let { toggle, supplierId } = this.props;
-      
+
         productObj.supplierId = supplierId;
-        productObj.code =Math.floor(Math.random() * 1000000);
-        productObj.completedDate =productObj.status === PRODUCT_STATUS.COMPLETED?new Date().toISOString():''
+        productObj.code = Math.floor(Math.random() * 1000000);
+        productObj.completedDate = productObj.status === PRODUCT_STATUS.COMPLETED ? new Date().toISOString() : ''
 
         productObj.wastageM = Number(productObj.totalLengthMeter) - ((Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE));
 
@@ -90,9 +96,9 @@ export class ProductEdit extends React.Component {
 
 
     render() {
-        let { productObj,isFormLoder } = this.state
+        let { productObj, isFormLoder,totalMeterUsed } = this.state
         let { isShow = false, toggle = '' } = this.props;
-        let productStatusList=[{ label: 'In Progress', value: PRODUCT_STATUS.IN_PROGRESS }, { label: 'Completed', value: PRODUCT_STATUS.COMPLETED }]
+        let productStatusList = [{ label: 'In Progress', value: PRODUCT_STATUS.IN_PROGRESS }, { label: 'Completed', value: PRODUCT_STATUS.COMPLETED }]
         this.validator.purgeFields();
         return (
 
@@ -119,7 +125,7 @@ export class ProductEdit extends React.Component {
                             <div className="mb-3">
                                 <label className="form-label">status</label>
                                 <NormalSelect options={productStatusList} name="status" onChange={this.handleInputChange} value={productObj.status} placeholder="Seletct Status" />
-                                {this.validator.message('status',productObj.status, 'required')}
+                                {this.validator.message('status', productObj.status, 'required')}
                             </div>
                         </div>
                         <div className="col-md-6">
@@ -182,8 +188,8 @@ export class ProductEdit extends React.Component {
                         <div className="col-md-6">
                             <div className="mb-3">
                                 <label className="form-label">Total Meters Used</label>
-                                <NormalInput type="number" placeholder="Total Meters Used" disabled={true} onChange={() => { }} value={(Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE)} />
-                                {this.validator.message('Shipment(S)',(Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE),`required|between:0,${productObj.totalLengthMeter},num`, { messages: { between: 'The Total Meters may not be greater than Total Length in meters.' } })}
+                                <NormalInput type="number" placeholder="Total Meters Used" disabled={true} onChange={() => { }} value={totalMeterUsed} />
+                                {this.validator.message('Shipment(S)', totalMeterUsed, `required|between:0,${productObj.totalLengthMeter},num`, { messages: { between: 'The Total Meters may not be greater than Total Length in meters.' } })}
                             </div>
                         </div>
                     </div>
@@ -203,7 +209,7 @@ export class ProductEdit extends React.Component {
                             <div className="mb-3">
                                 <label className="form-label">Stitching(M)</label>
                                 <NormalInput type="number" placeholder="Enter Stitching(M)" name="stitching.medium" onChange={this.handleInputChange} value={productObj.stitching.medium} />
-                                {this.validator.message('Stitching(M)', productObj.stitching.medium, `required|between:0,${productObj.cutting.medium},num`,`required|between:0,${productObj.cutting.medium}`, { messages: { between: 'The shipment(M) may not be greater than cutting(M).' } })}
+                                {this.validator.message('Stitching(M)', productObj.stitching.medium, `required|between:0,${productObj.cutting.medium},num`, `required|between:0,${productObj.cutting.medium}`, { messages: { between: 'The shipment(M) may not be greater than cutting(M).' } })}
                             </div>
                         </div>
                         <div className="col-md-6">
@@ -300,7 +306,7 @@ export class ProductEdit extends React.Component {
                             <div className="mb-3">
                                 <label className="form-label">Shipment(S)</label>
                                 <NormalInput type="number" placeholder="Enter Shipment(S)" name="shipment.small" onChange={this.handleInputChange} value={productObj.shipment.small} />
-                                {this.validator.message('Shipment(S)', productObj.shipment.small,`required|between:0,${productObj.cutting.small},num`, { messages: { between: 'The shipment(S) may not be greater than cutting(S).' } })}
+                                {this.validator.message('Shipment(S)', productObj.shipment.small, `required|between:0,${productObj.cutting.small},num`, { messages: { between: 'The shipment(S) may not be greater than cutting(S).' } })}
                             </div>
                         </div>
                         <div className="col-md-6">
@@ -343,7 +349,7 @@ export class ProductEdit extends React.Component {
 
                 </ModalBody>
                 <ModalFooter>
-                <NormalButton label={productObj.hasOwnProperty('id') ?"Update":"Save"} loader={isFormLoder} onClick={this.handleFormSubmit} />
+                    <NormalButton label={productObj.hasOwnProperty('id') ? "Update" : "Save"} loader={isFormLoder} onClick={this.handleFormSubmit} />
                     <NormalButton label="Cancel" className="btn-danger" disabled={isFormLoder} onClick={toggle} />
                 </ModalFooter>
             </Modal>

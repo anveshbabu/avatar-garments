@@ -13,7 +13,7 @@ export class AppBack extends React.Component {
         className="btn app-back p-0 mb-2"
         onClick={this.handleAppBack}
       >
-       <i class="bi bi-arrow-left-short"></i> {label}
+       <i className="bi bi-arrow-left-short"></i> {label}
       </button>
     );
   }

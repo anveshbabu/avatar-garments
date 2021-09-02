@@ -18,7 +18,7 @@ export class Badge extends Component {
     const { up, down, bgColor } = this.props;
     return (
       <span
-        class={`badge p-2 mx-2 rounded-pill text-dark ${bgColor || "bg-white"}`}
+        className={`badge p-2 mx-2 rounded-pill text-dark ${bgColor || "bg-white"}`}
       >
         <img
           src={`/icon/${up !== undefined ? "up-icon" : "down-icon"}.svg`}

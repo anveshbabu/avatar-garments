@@ -98,7 +98,7 @@ export class UserList extends React.Component {
 
             <div className="row">
                 <div className="col">
-                    <table class="table table-borderless user-list table-striped">
+                    <table className="table table-borderless user-list table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -114,7 +114,7 @@ export class UserList extends React.Component {
                         {isLoder ?
                             <>
                                 {[1, 2, 3, 4, 5, 6].map((data, i) =>
-                                    <tbody className="loader-body">
+                                    <tbody className="loader-body" key={i}>
                                         <tr>
                                             <td ><label className="skeletonLoader" >&nbsp;</label></td>
                                             <td ><label className="skeletonLoader" >&nbsp;</label></td>

@@ -28,7 +28,10 @@
         .card-title {
             margin: 0;
             font-size: 1.125rem;
-            display: flex;
+            &.supplier-title{
+                display: flex !important;
+            } 
+           
             label{
                 white-space: nowrap;
                 overflow: hidden;

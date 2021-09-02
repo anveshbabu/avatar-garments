@@ -21,7 +21,6 @@ export class UserEdit extends React.Component {
 
     componentDidMount() {
         let { userObjForm } = this.props;
-        console.log(!!userObjForm)
         if ( Object.keys(userObjForm).length>0) {
             this.setState({ userObj: userObjForm })
         }
@@ -32,13 +31,12 @@ export class UserEdit extends React.Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        console.log(name)
         this.setState({
             userObj: {
                 ...userObj,
                 [name]: value
             }
-        }, () => console.log(userObj))
+        })
     }
 
 
@@ -48,7 +46,6 @@ export class UserEdit extends React.Component {
        
         if (this.validator.allValid()) {
             this.setState({ isFormLoder: true });
-            console.log('dddd',userObj)
             let apiCall = userObj.hasOwnProperty('id') ? updateUser(Object.assign({}, userObj), userObj.id) : createAuthentication(userObj)
             apiCall.then((data) => {
                 this.setState({ isFormLoder: false });

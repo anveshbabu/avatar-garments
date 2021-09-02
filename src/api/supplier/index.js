@@ -7,12 +7,11 @@ import { Toast } from '../../service/toast';
 export const createSupplier = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (isAuthenticated) {
+            if (isAuthenticated()) {
                 let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
                 body.createdBy.name = fName + " " + lName;
                 body.createdBy.userId = user_id;
                 const docRef = await addDoc(collection(getFirestore(), "supplier"), body);
-                console.log("Document written with ID: ", JSON.stringify(docRef));
                 resolve(docRef)
             } else {
 
@@ -31,7 +30,7 @@ export const updateSupplier = (body, id) => {
     return new Promise(async (resolve, reject) => {
         delete body.id;
         try {
-            if (isAuthenticated) {
+            if (isAuthenticated()) {
                 let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
                 body.updatedBy.userId = user_id;
                 body.updatedBy.date = new Date().toISOString();
@@ -54,19 +53,17 @@ export const updateSupplier = (body, id) => {
 export const getAllSupplier = (body) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (isAuthenticated) {
+            if (isAuthenticated()) {
                 const querySnapshot = await getDocs(collection(getFirestore(), "supplier"));
                 let data = [];
                 let cont = 0
-                console.log(cont, querySnapshot.size)
                 if (querySnapshot.size !== 0) {
                     await querySnapshot.forEach((doc, index) => {
                       
-                        getAllProductsAggregation().then((countObj) => {
+                        getAllProductsAggregation(doc.id ).then((countObj) => {
                             cont++
                             data.push({ ...doc.data(), ...countObj, id: doc.id });
                             if (cont === querySnapshot.size) {
-                                console.log(cont , querySnapshot.size,'end res')
                                 resolve(data)
                             }
                         }).catch((error) => {
@@ -95,11 +92,11 @@ export const getAllSupplier = (body) => {
 
 
 
-export const getAllProductsAggregation = (body) => {
+export const getAllProductsAggregation = (supplierId) => {
     return new Promise(async (resolve, reject) => {
 
         try {
-            const querySnapshot = await getDocs(query(collection(getFirestore(), "product"), where("supplierId", "==", '5ypsmSxam5bvfW2IM0rJ')));
+            const querySnapshot = await getDocs(query(collection(getFirestore(), "product"), where("supplierId", "==", supplierId)));
             let data = {
                 cutting: {
                     small: 0,

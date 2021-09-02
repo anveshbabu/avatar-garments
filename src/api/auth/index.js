@@ -2,34 +2,36 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { EXIST_LOCAL_STORAGE } from '../../service/constants'
 import { createUser, getUserDetail } from '../user';
 import { Toast } from '../../service/toast';
-
+import { isAuthenticated } from '../../service/utilities'
 export const createAuthentication = (body) => {
     return new Promise((resolve, reject) => {
         let { email } = body;
         const auth = getAuth();
+        if (isAuthenticated()) {
+            createUserWithEmailAndPassword(auth, email, 'welcome@123')
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    body.userId = user.uid;
+                    createUser(body).then((data) => {
+                        resolve(data)
+                    }).catch((error) => {
+                        reject(error)
 
-        createUserWithEmailAndPassword(auth, email, 'welcome@123')
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                body.userId = user.uid;
-                createUser(body).then((data) => {
-                    resolve(data)
-                }).catch((error) => {
+                        // ..
+                    });
+                    // ...
+                })
+                .catch((error) => {
+                    Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
                     reject(error)
-
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
                     // ..
                 });
-                // ...
-            })
-            .catch((error) => {
-                Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
-                reject(error)
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-            });
+        }
     })
+
 }
 
 

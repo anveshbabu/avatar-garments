@@ -1,11 +1,11 @@
 import React from "react";
-import { NormalInput, NormalButton } from '../../../common'
+import { NormalInput, NormalButton, Dialog } from '../../../common'
 import './productList.scss'
 import { Link } from "react-router-dom";
 import { ProductEdit } from '../productEdit'
-import { getAllProducts } from '../../../../api';
+import { getAllProducts, deleteProducts } from '../../../../api';
 import moment from 'moment';
-import { PRODUCT_STATUS } from '../../../../service/constants'
+import { PRODUCT_STATUS, MODAL } from '../../../../service/constants'
 export class ProductList extends React.Component {
 
     constructor(props) {
@@ -16,7 +16,18 @@ export class ProductList extends React.Component {
             productEditObj: {},
             tabActive: PRODUCT_STATUS.IN_PROGRESS,
             isLoder: false,
-            searchName: ''
+            searchName: '',
+            productList: [],
+            deleteProdIndex: -1,
+            alertModel: {
+                isShow: false,
+                type: '',
+                title: '',
+                id: '',
+                index: -1,
+                okBtn: '',
+                actionLoder: false
+            },
         }
     }
 
@@ -25,9 +36,10 @@ export class ProductList extends React.Component {
     }
 
     getAllProductList = (status) => {
+        let { match: { params: { supplierId } } } = this.props;
         this.setState({ isLoder: true });
-        getAllProducts(status).then((productList) => {
-            this.setState({ isLoder: false, productList, isNodata: productList.length === 0 });
+        getAllProducts(status,supplierId).then((productList) => {
+            this.setState({ isLoder: false, productList, searchList: productList, isNodata: productList.length === 0 });
         }).catch((error) => {
             this.setState({ isLoder: false });
             console.error(error)
@@ -35,10 +47,10 @@ export class ProductList extends React.Component {
     }
 
     handleTogleEditModule = (data) => {
-        let { isProductFormModal } = this.state;
+        let { isProductFormModal,tabActive } = this.state;
         this.setState({ isProductFormModal: !isProductFormModal, productEditObj: {} })
         if (data === 'success') {
-            this.getAllProductList()
+            this.getAllProductList(tabActive)
         }
 
     }
@@ -52,27 +64,59 @@ export class ProductList extends React.Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        let { tabActive, productList,isNodata } = this.state;
-        if (!!value && !isNodata) {
-            const result = !!value ? [...productList].filter(({ name }) => name.toLowerCase().includes(value.toLowerCase())) : productList;
-            this.setState({ productList: result, isNodata: result.length === 0, searchName: value });
-        } else {
-            this.setState({ searchName: value });
-            this.getAllProductList(tabActive);
-        }
+        let { searchList } = this.state;
+        const result = !!value ? searchList.filter(({ name, code }) => name.toLowerCase().includes(value.toLowerCase()) || code.toString().toLowerCase().includes(value.toLowerCase())) : searchList;
+        this.setState({ productList: result, isNodata: result.length === 0, searchName: value });
 
+    }
+
+
+    //handleLogOut function call start
+    handleDeleteModal = (i) => {
+        let { alertModel } = this.state;
+        alertModel.isShow = true;
+        alertModel.type = MODAL.TYPE.WARNING;
+        alertModel.okBtn = 'yes, Delete'
+        alertModel.title = 'Are you sure you want to Delete this product';
+        this.setState({ alertModel, deleteProdIndex: i });
+
+    }
+
+    //handleAlert 
+    handleAlertModal = (value) => {
+        let { alertModel, productList, deleteProdIndex } = this.state;
+        if (value) {
+            let prodObj = productList[deleteProdIndex];
+            alertModel.actionLoder = true;
+            this.setState({ alertModel });
+            deleteProducts(prodObj.id).then((data) => {
+                alertModel.isShow = false;
+                alertModel.actionLoder = false;
+                productList.splice(deleteProdIndex, 1);
+                this.setState({ isFormLoder: false, alertModel, deleteProdIndex: -1,productList, isNodata: productList.length === 0 });
+                // toggle('success')
+            }).catch((error) => {
+                this.setState({ isFormLoder: false });
+                console.error(error)
+            });
+
+
+        } else {
+            alertModel.isShow = false;
+            this.setState({ isAlertModul: true })
+        }
     }
 
     render() {
         let { match: { params: { supplierId } } } = this.props;
-        let { isProductFormModal, isNodata, productList, productEditObj, tabActive, isLoder, searchName } = this.state;
+        let { isProductFormModal, isNodata, productList, productEditObj, tabActive, isLoder, searchName, alertModel } = this.state;
         return (
             <>
                 <div className="row mb-4">
                     <div className="col-md-6">
                         <div className="input-group search-input mb-3">
                             <span className="input-group-text bi bi-search"></span>
-                            <NormalInput onChange={this.handleSearch} value={searchName} />
+                            <NormalInput  placeholder="Search by Product or code"  onChange={this.handleSearch} value={searchName} />
                         </div>
                     </div>
                     <div className="col-md-6 text-end">
@@ -95,7 +139,7 @@ export class ProductList extends React.Component {
                     {isLoder ?
                         <>
                             {[1, 2, 3, 4, 5, 6].map((data, i) =>
-                                <div className="col-md-4 mb-4 ">
+                                <div className="col-md-4 mb-4 " key={i}>
                                     <div className="card product-card loder-card">
                                         {/* <img src="..." className="card-img-top" alt="..." /> */}
                                         <div className="card-body">
@@ -115,7 +159,7 @@ export class ProductList extends React.Component {
                         :
                         <>
                             {!isNodata && productList.map(({ name, code = '', completedDate, totalLengthMeter, cutting, inhouseDate, stitching, ironing, packing, shipment, wastageM, id, updatedBy, createdBy }, i) =>
-                                <div className="col-md-4 mb-4">
+                                <div className="col-md-4 mb-4" key={id}>
                                     <div className="card product-card">
                                         {/* <img src="..." className="card-img-top" alt="..." /> */}
                                         <div className="card-body">
@@ -198,7 +242,7 @@ export class ProductList extends React.Component {
                                                     <Link className="nav-link text-success" onClick={() => this.setState({ isProductFormModal: !isProductFormModal, productEditObj: productList[i] })}>Edit</Link>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <a className="nav-link text-danger" href="#">Delete</a>
+                                                    <a className="nav-link text-danger" onClick={() => this.handleDeleteModal(i)}>Delete</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -211,6 +255,9 @@ export class ProductList extends React.Component {
                 {isProductFormModal ?
                     <ProductEdit supplierId={supplierId} productEditObj={productEditObj} isShow={isProductFormModal} toggle={this.handleTogleEditModule} />
                     : ""}
+
+                <Dialog show={alertModel.isShow} actionLoder={alertModel.actionLoder} sucessBtn={alertModel.okBtn} onToggle={this.handleAlertModal} type={alertModel.type} title={alertModel.title} />
+
             </>
         );
     }

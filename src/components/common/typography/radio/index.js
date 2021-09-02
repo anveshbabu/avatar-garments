@@ -37,7 +37,7 @@ export class NormalRadio extends Component {
           name={name}
           disabled={disabled}
           value={value}
-          id={label.trim()+name} class="custom-control-input" />
+          id={label.trim()+name} className="custom-control-input" />
         <label className="custom-control-label" htmlFor={label.trim()+name}>{label}</label>
       </div>
     );

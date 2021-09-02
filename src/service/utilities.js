@@ -1,8 +1,9 @@
 
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { EXIST_LOCAL_STORAGE,CURRENT_USER } from './constants'
-import { isJwtExpired } from 'jwt-check-expiration';
+import { EXIST_LOCAL_STORAGE, CURRENT_USER } from './constants'
+import { Toast } from './toast';
+import { history } from '../helpers'
 export const axiosInstance = axios.create({
   // baseURL: process.env.REACT_APP_BASE_URL,
   headers: {
@@ -26,11 +27,16 @@ export const isAuthenticated = (req, res, next) => {
       return true;
     } else {
       localStorage.removeItem(EXIST_LOCAL_STORAGE);
+      Toast({ type: 'danger', message: 'Your Session has expired', title: 'Error' })
+      console.error('session expired');
+      history.push('/')
       return false
     }
 
   } else {
-    console.error('session expired')
+    Toast({ type: 'danger', message: 'Your Session has expired', title: 'Error' })
+    console.error('session expired');
+    history.push('/')
   }
 
 }
@@ -38,8 +44,8 @@ export const isAuthenticated = (req, res, next) => {
 export const jwtDecodeDetails = (req, res, next) => {
   let accessToken = localStorage.getItem(EXIST_LOCAL_STORAGE.AUTHTOKEN);
   if (!!accessToken) {
-    let userObj=JSON.parse(localStorage.getItem(CURRENT_USER))
-    return {...jwtDecode(accessToken),userObj};
+    let userObj = JSON.parse(localStorage.getItem(CURRENT_USER))
+    return { ...jwtDecode(accessToken), userObj };
 
   } else {
     console.error('Jwd null')

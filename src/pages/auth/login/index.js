@@ -87,7 +87,7 @@ export class Login extends React.Component {
             localStorage.setItem(EXIST_LOCAL_STORAGE.IS_KEEP_ME, 0);
             localStorage.setItem(EXIST_LOCAL_STORAGE.KEEP_ME_OBJ, JSON.stringify(keepMeObj));
           }
-          history.push(`/dashboard`);
+          history.push(`/supplier`);
         }
       }).catch((error) => {
         if(error==='auth/wrong-password'){
@@ -117,8 +117,8 @@ export class Login extends React.Component {
     return (
 
       <>
-        <div class="row login-page">
-          <div class="col-md-9 col-lg-8 mx-auto">
+        <div className="row login-page">
+          <div className="col-md-9 col-lg-8 mx-auto">
 
             <div className="row mb-3">
               <div className="col-md-12">
@@ -133,7 +133,7 @@ export class Login extends React.Component {
 
             <div className="row">
               <div className="col-md-12 mb-3">
-                <div class="form-group mb-0">
+                <div className="form-group mb-0">
                   <label>Login</label>
                   <NormalInput
                     placeholder="Email address or phone number"
@@ -154,7 +154,7 @@ export class Login extends React.Component {
 
             <div className="row">
               <div className="col-md-12">
-                <div class="form-group mb-0">
+                <div className="form-group mb-0">
                   <label>Password</label>
                   <NormalInput
                     placeholder="Password"
@@ -198,8 +198,8 @@ export class Login extends React.Component {
             </div>
 
 
-            {/* <div class="text-center">
-              <a class="small" href="#">Forgot password?</a></div> */}
+            {/* <div className="text-center">
+              <a className="small" href="#">Forgot password?</a></div> */}
           </div>
         </div>
 

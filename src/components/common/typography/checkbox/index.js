@@ -17,7 +17,7 @@ export class NormalCheckbox extends Component {
     } = this.props;
     return (
     
-        <div class={`custom-control custom-checkbox ${className}`}>
+        <div className={`custom-control custom-checkbox ${className}`}>
         <input
           disabled={disabled}
           type="checkbox"

@@ -35,7 +35,9 @@ export const CONFIG ={
     GRAPHQL_URL:process.env.REACT_APP_GRAPHQL_URL,
 };
 
-export const CURRENT_USER='currentUserObj'
+export const CURRENT_USER='currentUserObj';
+
+export const SUPPLIER_ROUT_NAME='supplierRoutName'
 
 
 

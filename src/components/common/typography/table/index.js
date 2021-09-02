@@ -81,9 +81,9 @@ export class NormalTable extends React.Component {
             itemsCountPerPage={!!paginationConfig?paginationConfig.pageCount:0}
             totalItemsCount={!!paginationConfig?paginationConfig.TotalCount:0}
             pageRangeDisplayed={!!paginationConfig?paginationConfig.btnDisplay:0}
-            itemClass="page-item"
-            linkClass="page-link"
-            innerClass=" custom-pagination pagination"
+            itemclassName="page-item"
+            linkclassName="page-link"
+            innerclassName=" custom-pagination pagination"
             nextPageText="Next"
             // nextPageText="Next"
             prevPageText="Previous"
