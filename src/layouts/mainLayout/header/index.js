@@ -2,8 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './header.scss'
 import { Dialog, NormalDropdown } from "../../../components/common";
-import { MODAL } from "../../../service/constants";
+import { MODAL, EXIST_LOCAL_STORAGE } from "../../../service/constants";
 import { history } from "../../../helpers";
+import { UserEdit } from '../../../components/pages'
 export class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -15,18 +16,31 @@ export class Header extends React.Component {
                 id: '',
                 index: -1,
                 okBtn: ''
-            }
+            },
+            isUserEditModal: false,
+            currentUser: {}
         };
     }
 
+    componentDidMount() {
+        let userObj = localStorage.getItem(EXIST_LOCAL_STORAGE.CURRENT_USER);
+        this.setState({currentUser:JSON.parse(userObj)})
+
+    }
+
+
     //handleLogOut function call start
-    handleLogOut = () => {
-        let { alertModel } = this.state;
-        alertModel.isShow = true;
-        alertModel.type = MODAL.TYPE.WARNING;
-        alertModel.okBtn = 'yes, Log Out'
-        alertModel.title = 'Are you sure you want to Log Out';
-        this.setState({ alertModel })
+    handleMoreOpp = (event) => {
+        if (event.target.value === 'Sign out') {
+            let { alertModel } = this.state;
+            alertModel.isShow = true;
+            alertModel.type = MODAL.TYPE.WARNING;
+            alertModel.okBtn = 'yes, Log Out'
+            alertModel.title = 'Are you sure you want to Log Out';
+            this.setState({ alertModel });
+        } else {
+            this.setState({ isUserEditModal: true })
+        }
     }
 
     //handleAlert 
@@ -34,7 +48,7 @@ export class Header extends React.Component {
         let { alertModel } = this.state;
         if (value) {
             alertModel.isShow = false;
-           
+
             history.push(`/auth/login`);
         } else {
             alertModel.isShow = false;
@@ -42,7 +56,18 @@ export class Header extends React.Component {
         this.setState({ alertModel })
     }
     render() {
-        let { alertModel } = this.state;
+        let { alertModel, isUserEditModal,currentUser } = this.state;
+        let optionsList = [
+            {
+                icon: "bi bi-person",
+                label: "Profile"
+            },
+            {
+                icon: "bi bi-box-arrow-left",
+                label: "Sign out"
+            },
+
+        ]
         return (
             <header className="p-3 mb-3 border-bottom app-header shadow ">
                 <div className="container">
@@ -61,24 +86,27 @@ export class Header extends React.Component {
                             <li className="nav-item"><NavLink to="/users" className="nav-link px-2">Users</NavLink ></li>
                         </ul>
 
-
-
-                        <div className="dropdown text-end" onClick={this.handleLogOut}>
-                            <a  className="d-block link-light text-decoration-none dropdown-toggle">
-                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
+                        {/* onClick={this.handleLogOut} */}
+                        <div className="dropdown text-end d-flex" >
+                            <a className="d-block link-light text-decoration-none dropdown-toggle">
+                                <img src="./avatar-garments/images/profile.svg" alt="mdo" width="32" height="32" className="rounded-circle" />
                             </a>
-                            <ul className="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                                <li><a className="dropdown-item" href="#">New project...</a></li>
-                                <li><a className="dropdown-item" href="#">Settings</a></li>
-                                <li><a className="dropdown-item" href="#">Profile</a></li>
-                                <li><hr className="dropdown-divider" /></li>
-                                <li><a className="dropdown-item" href="#">Sign out</a></li>
-                            </ul>
+
+                            <NormalDropdown
+                                optionsList={optionsList}
+                                // direction="left"
+                                // caret={false}
+                                className="bg-transparent p-0 header-drop"
+                                labelIcon="icon-show-more"
+                                label={currentUser.fName+" "+currentUser.lName}
+                                onClick={this.handleMoreOpp}
+                            />
                         </div>
                     </div>
                 </div>
                 <Dialog show={alertModel.isShow} sucessBtn={alertModel.okBtn} onToggle={this.handleAlertModal} type={alertModel.type} title={alertModel.title} />
-
+                {isUserEditModal ?
+                    <UserEdit isShow={isUserEditModal} userObjForm={currentUser} toggle={() => this.setState({ isUserEditModal: false })} /> : ""}
             </header>
         );
     }

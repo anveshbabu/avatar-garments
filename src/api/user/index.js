@@ -91,7 +91,7 @@ export const getUserDetail = (body) => {
 
                 const docSnap = await getDoc(doc(getFirestore(), "user", body));
                 if (docSnap.exists()) {
-                    localStorage.setItem(CURRENT_USER, JSON.stringify(docSnap.data()));
+                    localStorage.setItem(CURRENT_USER, JSON.stringify({...docSnap.data(),id:docSnap.id}));
                     resolve(docSnap.data())
                 } else {
                     // doc.data() will be undefined in this case

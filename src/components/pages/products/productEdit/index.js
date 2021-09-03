@@ -22,7 +22,8 @@ export class ProductEdit extends React.Component {
     componentDidMount() {
         let { productEditObj } = this.props;
         if (Object.keys(productEditObj).length > 0) {
-            this.setState({ productObj: productEditObj })
+            this.setState({ productObj: productEditObj });
+            this.totalLengthMeter(productEditObj)
         }
     }
 
@@ -54,8 +55,7 @@ export class ProductEdit extends React.Component {
                 }
             });
             if (name[0] === 'cutting') {
-                let totalMeterUsed = (Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE)
-                this.setState({ totalMeterUsed })
+               this.totalLengthMeter(productObj)
             }
         }
 
@@ -63,6 +63,10 @@ export class ProductEdit extends React.Component {
 
     }
 
+    totalLengthMeter=(productObj)=>{
+        let totalMeterUsed = (Number(productObj.cutting.small) * METER.SMALL) + (Number(productObj.cutting.medium) * METER.MEDIUM) + (Number(productObj.cutting.large) * METER.LARGE)
+        this.setState({ totalMeterUsed })
+    }
 
     handleFormSubmit = () => {
         let { productObj } = this.state;

@@ -55,5 +55,17 @@
                 text-align: center;
             }
         }
+    
+    }
+    .header-drop{
+        font-weight: 500;
+        
+    }
+    .btn-group .dropdown-menu.show{
+        width: unset !important;
+    }
+    .btn-group .dropdown-item{
+        opacity: unset;
+        font-weight: 600;
     }
 }

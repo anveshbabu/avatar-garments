@@ -91,7 +91,7 @@ export class NormalDropdown extends React.Component {
         <DropdownToggle disabled={disabled} color="" className={className} >
 
 
-          {label ? label : <i className={labelIcon}></i>} <AbIf show={caret}>{isOpen ? <i className="fas fa-chevron-up ml-2"></i> : <i className="fas fa-chevron-down ml-2"></i>} </AbIf>
+          {label ? label : <i className={labelIcon}></i>} <AbIf show={caret}>{isOpen ? <i className="bi bi-chevron-up ml-2"></i> : <i className="bi bi-chevron-down ml-2"></i>} </AbIf>
         </DropdownToggle>
 
         <DropdownMenu >

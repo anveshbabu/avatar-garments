@@ -11,7 +11,8 @@ export const EXIST_LOCAL_STORAGE ={
     USER_ID:'userId',
     IS_KEEP_ME:'isKeepMe',
     KEEP_ME_OBJ:'keepMeObj',
-    META_BRANCH:'metaBranch'
+    META_BRANCH:'metaBranch',
+    CURRENT_USER:'currentUserObj'
 }
 
 export const STATUS={
