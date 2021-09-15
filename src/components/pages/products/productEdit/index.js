@@ -5,7 +5,8 @@ import './productEdit.scss';
 import { productObj } from '../../../../entityModel/product';
 import SimpleReactValidator from 'simple-react-validator';
 import { USER_TYPE, PRODUCT_STATUS, METER } from '../../../../service/constants';
-import { createProduct, updateProduct } from '../../../../api/'
+import { createProduct, updateProduct } from '../../../../api/';
+import moment from 'moment';
 export class ProductEdit extends React.Component {
 
     constructor(props) {
@@ -22,7 +23,11 @@ export class ProductEdit extends React.Component {
     componentDidMount() {
         let { productEditObj } = this.props;
         if (Object.keys(productEditObj).length > 0) {
-            this.setState({ productObj: productEditObj });
+            let productObj =Object.assign({}, productEditObj)
+            console.log('moment(new Date(productEditObj.inhouseDate.seconds*1e3))------->',moment(new Date(productEditObj.inhouseDate.seconds*1e3)).format('DD-MM-YYYY'))
+            productObj.inhouseDate=moment(new Date(productEditObj.inhouseDate.seconds*1e3)).format('DD-MM-YYYY').toString();
+            console.log(productObj)
+            this.setState({ productObj });
             this.totalLengthMeter(productEditObj)
         }
     }
@@ -80,7 +85,7 @@ export class ProductEdit extends React.Component {
 
         if (this.validator.allValid()) {
             this.setState({ isFormLoder: true });
-            let apiCall = productObj.hasOwnProperty('id') ? updateProduct(Object.assign({}, productObj), productObj.id) : createProduct(productObj)
+            let apiCall = productObj.hasOwnProperty('id') ? updateProduct(Object.assign({}, productObj), productObj.id) : createProduct(Object.assign({}, productObj))
             apiCall.then((data) => {
                 this.setState({ isFormLoder: false });
                 toggle('success')

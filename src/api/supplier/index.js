@@ -1,4 +1,4 @@
-import { collection, addDoc, updateDoc, query, doc, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, updateDoc, query, doc, where, getDocs, deleteDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { isAuthenticated, jwtDecodeDetails } from '../../service/utilities'
 import { Toast } from '../../service/toast';
@@ -59,8 +59,8 @@ export const getAllSupplier = (body) => {
                 let cont = 0
                 if (querySnapshot.size !== 0) {
                     await querySnapshot.forEach((doc, index) => {
-                      
-                        getAllProductsAggregation(doc.id ).then((countObj) => {
+
+                        getAllProductsAggregation(doc.id).then((countObj) => {
                             cont++
                             data.push({ ...doc.data(), ...countObj, id: doc.id });
                             if (cont === querySnapshot.size) {
@@ -89,6 +89,45 @@ export const getAllSupplier = (body) => {
 }
 
 
+
+export const deleteSupplier = (supplierId) => {
+    console.log(supplierId)
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (isAuthenticated()) {
+                // const querySnapshot = await getDocs(collection(getFirestore(), "product"));
+                const dataRef = await deleteDoc(doc(getFirestore(), "supplier", supplierId))
+                const querySnapshot = await getDocs(query(collection(getFirestore(), "product"), where("supplierId", "==", supplierId)));
+                let cont = 0
+                if (querySnapshot.size !== 0) {
+                    await querySnapshot.forEach( async (product, index) => {
+                        console.log(product.id)
+                        await deleteDoc(doc(getFirestore(), "product", product.id))
+
+                    }).catch((error) => {
+                        Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+                        console.error(error);
+
+                    });
+                } else {
+                    resolve({ "message": "Success", "time": 1631676559271, "status_code": 200 })
+                }
+
+                if (cont === querySnapshot.size && !!dataRef) {
+                    resolve({ "message": "Success", "time": 1631676559271, "status_code": 200 })
+                }
+
+            } else {
+
+            }
+
+        } catch (e) {
+            Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
+            reject(e)
+            console.error("Error adding document: ", e);
+        }
+    })
+}
 
 
 

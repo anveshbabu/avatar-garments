@@ -3,9 +3,11 @@ import { NormalInput, NormalButton, Dialog } from '../../../common'
 import './productList.scss'
 import { Link } from "react-router-dom";
 import { ProductEdit } from '../productEdit'
-import { getAllProducts, deleteProducts } from '../../../../api';
+import { getAllProducts, deleteProducts,getAllDateRangeProducts } from '../../../../api';
 import moment from 'moment';
-import { PRODUCT_STATUS, MODAL } from '../../../../service/constants'
+import { PRODUCT_STATUS, MODAL } from '../../../../service/constants';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+
 export class ProductList extends React.Component {
 
     constructor(props) {
@@ -28,17 +30,28 @@ export class ProductList extends React.Component {
                 okBtn: '',
                 actionLoder: false
             },
+            dateFilter: {
+                start: moment(),
+                end: moment()
+            },
+            pathname: ''
         }
     }
 
     componentDidMount() {
-        this.getAllProductList(PRODUCT_STATUS.IN_PROGRESS);
+        let { location: { pathname } } = this.props;
+        this.setState({ pathname: pathname.replaceAll('/', '') },()=> this.getAllProductList(PRODUCT_STATUS.IN_PROGRESS))
+       
     }
 
     getAllProductList = (status) => {
         let { match: { params: { supplierId } } } = this.props;
+        let { dateFilter,pathname } = this.state;
         this.setState({ isLoder: true });
-        getAllProducts(status,supplierId).then((productList) => {
+     
+        let apiCall =pathname !== 'allProduct'? getAllProducts(status, supplierId):getAllDateRangeProducts(dateFilter);
+        apiCall.then((productList) => {
+            console.log('pathname--------->',JSON.stringify(productList))
             this.setState({ isLoder: false, productList, searchList: productList, isNodata: productList.length === 0 });
         }).catch((error) => {
             this.setState({ isLoder: false });
@@ -47,7 +60,7 @@ export class ProductList extends React.Component {
     }
 
     handleTogleEditModule = (data) => {
-        let { isProductFormModal,tabActive } = this.state;
+        let { isProductFormModal, tabActive } = this.state;
         this.setState({ isProductFormModal: !isProductFormModal, productEditObj: {} })
         if (data === 'success') {
             this.getAllProductList(tabActive)
@@ -93,7 +106,7 @@ export class ProductList extends React.Component {
                 alertModel.isShow = false;
                 alertModel.actionLoder = false;
                 productList.splice(deleteProdIndex, 1);
-                this.setState({ isFormLoder: false, alertModel, deleteProdIndex: -1,productList, isNodata: productList.length === 0 });
+                this.setState({ isFormLoder: false, alertModel, deleteProdIndex: -1, productList, isNodata: productList.length === 0 });
                 // toggle('success')
             }).catch((error) => {
                 this.setState({ isFormLoder: false });
@@ -107,22 +120,75 @@ export class ProductList extends React.Component {
         }
     }
 
+
+    handleInitialSettingsDateRange = () => {
+        let { dateFilter: { start, end } } = this.state;
+        return {
+            startDate: start.toDate(),
+            endDate: end.toDate(),
+            ranges: {
+                Today: [moment().toDate(), moment().toDate()],
+                Yesterday: [
+                    moment().subtract(1, 'days').toDate(),
+                    moment().subtract(1, 'days').toDate(),
+                ],
+                'Last 7 Days': [
+                    moment().subtract(6, 'days').toDate(),
+                    moment().toDate(),
+                ],
+                'Last 30 Days': [
+                    moment().subtract(29, 'days').toDate(),
+                    moment().toDate(),
+                ],
+                'This Month': [
+                    moment().startOf('month').toDate(),
+                    moment().endOf('month').toDate(),
+                ],
+                'Last Month': [
+                    moment().subtract(1, 'month').startOf('month').toDate(),
+                    moment().subtract(1, 'month').endOf('month').toDate(),
+                ],
+            },
+        }
+    }
+    handleDateCHange = (start, end, label) => {
+        let dateFilter = {
+            start,
+            end
+        }
+
+        this.setState({ dateFilter }, () => this.getAllProductList(PRODUCT_STATUS.IN_PROGRESS))
+    }
     render() {
         let { match: { params: { supplierId } } } = this.props;
-        let { isProductFormModal, isNodata, productList, productEditObj, tabActive, isLoder, searchName, alertModel } = this.state;
+        let { isProductFormModal, isNodata, dateFilter, pathname, productList, productEditObj, tabActive, isLoder, searchName, alertModel } = this.state;
+        const dateFilterLabel = dateFilter.start.format('DD,MM,YYYY') + ' - ' + dateFilter.end.format('DD,MM,YYYY');
         return (
             <>
                 <div className="row mb-4">
                     <div className="col-md-6">
                         <div className="input-group search-input mb-3">
                             <span className="input-group-text bi bi-search"></span>
-                            <NormalInput  placeholder="Search by Product or code"  onChange={this.handleSearch} value={searchName} />
+                            <NormalInput placeholder="Search by Product or code" onChange={this.handleSearch} value={searchName} />
                         </div>
                     </div>
-                    <div className="col-md-6 text-end">
-                        <NormalButton label='Add New' className="btn-sm btn-primary" onClick={() => this.setState({ isProductFormModal: true })} />
+                    <div className="col-md-3">
+                        {pathname === 'allProduct' ?
+                            <DateRangePicker initialSettings={this.handleInitialSettingsDateRange()} onCallback={this.handleDateCHange}>
+                                <div className="input-group search-input mb-3">
+                                    <span className="input-group-text bi bi-calendar"></span>
+                                    <NormalInput placeholder="Search by Product or code" value={dateFilterLabel} />
+                                </div>
+                            </DateRangePicker> : ''}
+                        {/* <NormalButton label='Add New' className="btn-sm btn-primary" onClick={() => this.setState({ isProductFormModal: true })} /> */}
+                    </div>
+                    <div className="col-md-3 text-end">
+                        {pathname !== 'allProduct' ?
+                            <NormalButton label='Add New' className="btn-sm btn-primary" onClick={() => this.setState({ isProductFormModal: true })} /> : ""}
+
                     </div>
                 </div>
+                {pathname !== 'allProduct' ?
                 <div className="row mb-2">
                     <div className="col-md-6">
                         <ul className="nav nav-pills">
@@ -134,7 +200,7 @@ export class ProductList extends React.Component {
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>:""}
                 <div className="row">
                     {isLoder ?
                         <>
@@ -158,7 +224,7 @@ export class ProductList extends React.Component {
                         </>
                         :
                         <>
-                            {!isNodata && productList.map(({ name, code = '', completedDate, totalLengthMeter, cutting, inhouseDate, stitching, ironing, packing, shipment, wastageM, id, updatedBy, createdBy }, i) =>
+                            {!isNodata && productList.map(({ name, status,code = '', completedDate, totalLengthMeter, cutting, inhouseDate, stitching, ironing, packing, shipment, wastageM, id, updatedBy, createdBy }, i) =>
                                 <div className="col-md-4 mb-4" key={id}>
                                     <div className="card product-card">
                                         {/* <img src="..." className="card-img-top" alt="..." /> */}
@@ -221,13 +287,17 @@ export class ProductList extends React.Component {
                                                     </tr>
                                                     <tr>
                                                         <td><strong>In-house Date:</strong></td>
-                                                        <td colspan="4">{moment(inhouseDate).format("Do MMM, YYYY")}</td>
+                                                        <td colspan="4">{moment(new Date(inhouseDate.seconds*1e3)).format("Do MMM, YYYY")}</td>
                                                     </tr>
                                                     {tabActive === PRODUCT_STATUS.COMPLETED ?
                                                         <tr>
                                                             <td><strong>Completed Date:</strong></td>
                                                             <td colspan="4">{moment(completedDate).format("Do MMM, YYYY")}</td>
                                                         </tr> : ""}
+                                                        <tr>
+                                                        <td><strong>Status:</strong></td>
+                                                        <td colspan="4">{status}</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                             <p className="updated-text mb-0">Updated By <strong>{updatedBy.name}</strong> on <strong>{moment(!!updatedBy.data ? updatedBy.date : createdBy.date).format("Do MMM, YYYY")}</strong></p>

@@ -4,7 +4,7 @@ import './supplierList.scss';
 import { history } from '../../../../helpers';
 import { SUPPLIER_ROUT_NAME } from '../../../../service/constants';
 import { SupplierAdd } from '../supplierAdd';
-import { getAllSupplier } from '../../../../api/supplier'
+import { getAllSupplier,deleteSupplier } from '../../../../api/supplier'
 
 export class SupplierList extends React.Component {
 
@@ -97,6 +97,7 @@ export class SupplierList extends React.Component {
                         :
                         <>
                             {!isNodata && supplierList.map(({ name, code = '', cutting, stitching, ironing, packing, shipment, wastageM, id }, i) =>
+                                // <div className="col-md-4 mb-4" key={id} onClick={()=>deleteSupplier(id)}>
                                 <div className="col-md-4 mb-4" key={id}>
                                     <div className="card product-card">
                                         {/* <img src="..." className="card-img-top" alt="..." /> */}

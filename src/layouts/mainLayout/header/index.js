@@ -82,7 +82,8 @@ export class Header extends React.Component {
 
                         <ul className="nav nav-pills col-12 col-lg-auto my-2 me-lg-3 justify-content-center my-md-0 text-smal">
                             {/* <li className="nav-item"><NavLink to="/dashboard" className="nav-link px-2">Dashboard</NavLink ></li> */}
-                            <li className="nav-item"><NavLink to="/supplier" className="nav-link px-2">Products</NavLink ></li>
+                            <li className="nav-item"><NavLink to="/allProduct" className="nav-link px-2">Products</NavLink ></li>
+                            <li className="nav-item"><NavLink to="/supplier" className="nav-link px-2">supplier</NavLink ></li>
                             <li className="nav-item"><NavLink to="/users" className="nav-link px-2">Users</NavLink ></li>
                         </ul>
 
