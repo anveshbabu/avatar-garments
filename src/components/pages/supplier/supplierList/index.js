@@ -1,10 +1,10 @@
 import React from "react";
-import { NormalInput, NormalButton } from '../../../common'
+import { NormalInput, NormalButton, Dialog } from '../../../common'
 import './supplierList.scss';
 import { history } from '../../../../helpers';
-import { SUPPLIER_ROUT_NAME } from '../../../../service/constants';
+import { SUPPLIER_ROUT_NAME, MODAL } from '../../../../service/constants';
 import { SupplierAdd } from '../supplierAdd';
-import { getAllSupplier,deleteSupplier } from '../../../../api/supplier'
+import { getAllSupplier, deleteSupplier } from '../../../../api/supplier';
 
 export class SupplierList extends React.Component {
 
@@ -14,7 +14,18 @@ export class SupplierList extends React.Component {
         supplierList: [],
         isNodata: false,
         searchName: '',
-        searchList: []
+        searchList: [],
+        alertModel: {
+            isShow: false,
+            type: '',
+            title: '',
+            id: '',
+            index: -1,
+            okBtn: '',
+            actionLoder: false
+        },
+        deleteSupplierIndex: -1,
+        alertCount:0
 
 
     }
@@ -53,13 +64,54 @@ export class SupplierList extends React.Component {
 
     }
 
-    handleRouteOfProduct=(id,name)=>{
+    handleRouteOfProduct = (id, name) => {
         localStorage.setItem(SUPPLIER_ROUT_NAME, name);
         history.push('/supplier/product/' + id);
     }
 
+    handleOpenDeleteModal = (i) => {
+        let { alertModel } = this.state;
+        alertModel.isShow = true;
+        alertModel.type = MODAL.TYPE.WARNING;
+        alertModel.okBtn = 'yes, Delete'
+        alertModel.title = 'Are you sure you want to Delete this supplier';
+        // alertModel.actionLoder = true;
+        this.setState({ alertModel, deleteSupplierIndex: i ,alertCount:1});
+    }
+
+    handleAlertModal = () => {
+        let { supplierList,alertModel,alertCount,deleteSupplierIndex } = this.state;
+        let { id} = supplierList[deleteSupplierIndex];
+        if(alertCount ==1){
+            alertModel.isShow = false;
+           
+            this.setState({alertModel},()=>{
+                alertModel.isShow = true;
+                alertModel.title = 'If delete supplier under all products also delete';
+                this.setState({alertModel,alertCount:0})
+            })
+        }else{
+            alertModel.actionLoder = true;
+            this.setState({alertModel})
+            deleteSupplier(id).then((data) => {
+                console.log('ddddd------>',data)
+                alertModel.isShow = false;
+                alertModel.actionLoder = false;
+                supplierList.splice(deleteSupplierIndex, 1); 
+                this.setState({ deleteSupplierIndex: -1 ,supplierList,alertCount:0,alertModel})
+            }).catch((error) => {
+                alertModel.isShow = false;
+                alertModel.actionLoder = false;
+                this.setState({ deleteSupplierIndex: -1,alertCount:0,alertModel });
+                console.error(error)
+            });
+        }
+       
+
+    }
+
     render() {
-        let { isOpenAdd, supplierList, supplierObj, isNodata, isLoder, searchName } = this.state;
+        let { isOpenAdd, supplierList, supplierObj, isNodata, isLoder, searchName, alertModel } = this.state;
         return (
             <>
                 <div className="row mb-4">
@@ -103,7 +155,10 @@ export class SupplierList extends React.Component {
                                         {/* <img src="..." className="card-img-top" alt="..." /> */}
                                         <div className="card-body">
 
-                                            <h5 className="card-title supplier-title"><label>{name}</label> <i className="bi bi-pencil-fill text-primary edit-icon" onClick={() => this.setState({ isOpenAdd: true, supplierObj: supplierList[i] })} /></h5>
+                                            <h5 className="card-title supplier-title"><label>{name}</label>
+                                                <i className="bi bi-pencil-fill text-primary edit-icon" onClick={() => this.setState({ isOpenAdd: true, supplierObj: supplierList[i] })} />
+                                                <i className="bi bi-trash-fill text-danger edit-icon ms-1" onClick={() => this.handleOpenDeleteModal(i)} />
+                                            </h5>
                                             <small className="text-muted">{code}</small>
                                             <span className="text-danger float-end">wastage:{wastageM}M</span>
                                             {/* <hr> */}
@@ -163,7 +218,7 @@ export class SupplierList extends React.Component {
 
                                         </div>
                                         <div className="text-center card-footer">
-                                            <button className="btn btn-primary btn-sm" type="button" onClick={()=>this.handleRouteOfProduct(id,name)}>Manage Supplier</button>
+                                            <button className="btn btn-primary btn-sm" type="button" onClick={() => this.handleRouteOfProduct(id, name)}>Manage Supplier</button>
                                         </div>
                                     </div>
                                 </div>
@@ -172,6 +227,7 @@ export class SupplierList extends React.Component {
                 </div>
                 {isOpenAdd ?
                     <SupplierAdd isShow={isOpenAdd} supplierObjForm={supplierObj} toggle={this.handleTogleEditModule} /> : ''}
+                <Dialog show={alertModel.isShow} actionLoder={alertModel.actionLoder} sucessBtn={alertModel.okBtn} onToggle={this.handleAlertModal} type={alertModel.type} title={alertModel.title} />
             </>
         );
     }

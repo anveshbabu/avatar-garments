@@ -96,26 +96,25 @@ export const deleteSupplier = (supplierId) => {
         try {
             if (isAuthenticated()) {
                 // const querySnapshot = await getDocs(collection(getFirestore(), "product"));
-                const dataRef = await deleteDoc(doc(getFirestore(), "supplier", supplierId))
+                const dataRef = await deleteDoc(doc(getFirestore(), "supplier", supplierId));
+                console.log('dataRef-------->',dataRef)
                 const querySnapshot = await getDocs(query(collection(getFirestore(), "product"), where("supplierId", "==", supplierId)));
                 let cont = 0
                 if (querySnapshot.size !== 0) {
-                    await querySnapshot.forEach( async (product, index) => {
+                    await querySnapshot.forEach(async (product, index) => {
+                        cont++
                         console.log(product.id)
                         await deleteDoc(doc(getFirestore(), "product", product.id))
 
-                    }).catch((error) => {
-                        Toast({ type: 'danger', message: 'Internal Server Error', title: 'Error' })
-                        console.error(error);
-
-                    });
+                    })
+                    if (cont === querySnapshot.size) {
+                        resolve({ "message": "Success", "time": 1631676559271, "status_code": 200 })
+                    }
                 } else {
                     resolve({ "message": "Success", "time": 1631676559271, "status_code": 200 })
                 }
 
-                if (cont === querySnapshot.size && !!dataRef) {
-                    resolve({ "message": "Success", "time": 1631676559271, "status_code": 200 })
-                }
+
 
             } else {
 

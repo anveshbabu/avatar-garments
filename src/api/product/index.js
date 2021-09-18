@@ -12,7 +12,7 @@ export const createProduct = (body) => {
                 let { user_id, userObj: { fName, lName } } = jwtDecodeDetails();
                 body.createdBy.name = fName + " " + lName;
                 body.createdBy.userId = user_id;
-                body.inhouseDate = moment(body.inhouseDate);
+                body.inhouseDate = Timestamp.fromDate(new Date(body.inhouseDate));
                 console.log(JSON.stringify(body))
                 const docRef = await addDoc(collection(getFirestore(), "product"), body);
                 console.log("Document written with ID: ", JSON.stringify(docRef));
