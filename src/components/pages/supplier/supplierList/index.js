@@ -94,7 +94,6 @@ export class SupplierList extends React.Component {
             alertModel.actionLoder = true;
             this.setState({alertModel})
             deleteSupplier(id).then((data) => {
-                console.log('ddddd------>',data)
                 alertModel.isShow = false;
                 alertModel.actionLoder = false;
                 supplierList.splice(deleteSupplierIndex, 1); 

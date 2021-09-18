@@ -218,7 +218,7 @@ export class ProductEdit extends React.Component {
                             <div className="mb-3">
                                 <label className="form-label">Stitching(M)</label>
                                 <NormalInput type="number" placeholder="Enter Stitching(M)" name="stitching.medium" onChange={this.handleInputChange} value={productObj.stitching.medium} />
-                                {this.validator.message('Stitching(M)', productObj.stitching.medium, `required|between:0,${productObj.cutting.medium},num`, `required|between:0,${productObj.cutting.medium}`, { messages: { between: 'The shipment(M) may not be greater than cutting(M).' } })}
+                                {this.validator.message('Stitching(M)', productObj.stitching.medium, `required|between:0,${productObj.cutting.medium},num`,  { messages: { between: 'The shipment(M) may not be greater than cutting(M).' } })}
                             </div>
                         </div>
                         <div className="col-md-6">
