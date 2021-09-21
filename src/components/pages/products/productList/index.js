@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ProductEdit } from '../productEdit'
 import { getAllProducts, deleteProducts,getAllDateRangeProducts } from '../../../../api';
 import moment from 'moment';
-import { PRODUCT_STATUS, MODAL } from '../../../../service/constants';
+import { PRODUCT_STATUS, MODAL,SUPPLIER_ROUT_NAME } from '../../../../service/constants';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 
 export class ProductList extends React.Component {
@@ -116,7 +116,7 @@ export class ProductList extends React.Component {
 
         } else {
             alertModel.isShow = false;
-            this.setState({ isAlertModul: true })
+            this.setState({ isAlertModul: true,deleteProdIndex:-1 })
         }
     }
 
@@ -159,6 +159,9 @@ export class ProductList extends React.Component {
 
         this.setState({ dateFilter }, () => this.getAllProductList(PRODUCT_STATUS.IN_PROGRESS))
     }
+    componentWillUnmount(){
+        localStorage.setItem(SUPPLIER_ROUT_NAME, '');
+    }
     render() {
         let { match: { params: { supplierId } } } = this.props;
         let { isProductFormModal, isNodata, dateFilter, pathname, productList, productEditObj, tabActive, isLoder, searchName, alertModel } = this.state;
@@ -191,7 +194,7 @@ export class ProductList extends React.Component {
                 {pathname !== 'allProduct' ?
                 <div className="row mb-2">
                     <div className="col-md-6">
-                        <ul className="nav nav-pills">
+                        <ul className="nav nav-pills product-pills">
                             <li className="nav-item" onClick={() => this.handleTabChange(PRODUCT_STATUS.IN_PROGRESS)}>
                                 <a className={`nav-link ${tabActive === PRODUCT_STATUS.IN_PROGRESS ? 'active' : ''}`}>Pending </a>
                             </li>

@@ -1,3 +1,4 @@
+@import './abstracts/abstracts-dir.scss';
 label {
     display: inline-block;
     margin-bottom: 0.5rem;
@@ -36,6 +37,9 @@ label {
         white-space: nowrap;
         font-size: 14px;
         cursor: pointer;
+        &:hover{
+            color: $primary-bg;
+        }
         &.active {
             align-items: baseline;
             border-width: 0px;
@@ -50,7 +54,8 @@ label {
             text-decoration: none;
             transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
             white-space: nowrap;
-            background: rgb(0, 82, 204);
+            background-color: $primary-bg !important;
+            border-color: #b42424;
             color: rgb(255, 255, 255);
             cursor: default;
             height: 2.28571em;
@@ -67,6 +72,9 @@ label {
             text-align: center;
         }
     }
+}
+.text-danger {
+    color: $primary-bg !important;
 }
 .form-label {
     font-size: 0.88rem;
@@ -98,5 +106,13 @@ label {
         100% {
             background-position: 468px 0;
         }
+    }
+}
+.modal {
+    .edit-modal{
+        top: 0;
+        right: 0;
+        position: absolute;
+        width: 100%;
     }
 }

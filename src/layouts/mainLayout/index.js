@@ -33,9 +33,9 @@ export class MainLayout extends React.Component {
         <div className="d-flex" id="wrapper">
         {/* <Sidebar /> */}
      
-        
+        <Header />
           <div id="page-content-wrapper" className="w-100">
-          <Header />
+          
           <div className="container">
           <section>{this.props.children}</section>
           </div>

@@ -79,9 +79,10 @@ export class SupplierList extends React.Component {
         this.setState({ alertModel, deleteSupplierIndex: i ,alertCount:1});
     }
 
-    handleAlertModal = () => {
+    handleAlertModal = (value) => {
         let { supplierList,alertModel,alertCount,deleteSupplierIndex } = this.state;
         let { id} = supplierList[deleteSupplierIndex];
+        if(value){
         if(alertCount ==1){
             alertModel.isShow = false;
            
@@ -97,7 +98,7 @@ export class SupplierList extends React.Component {
                 alertModel.isShow = false;
                 alertModel.actionLoder = false;
                 supplierList.splice(deleteSupplierIndex, 1); 
-                this.setState({ deleteSupplierIndex: -1 ,supplierList,alertCount:0,alertModel})
+                this.setState({ deleteSupplierIndex: -1 ,supplierList,alertCount:0,alertModel,isNodata:supplierList.length===0})
             }).catch((error) => {
                 alertModel.isShow = false;
                 alertModel.actionLoder = false;
@@ -105,6 +106,11 @@ export class SupplierList extends React.Component {
                 console.error(error)
             });
         }
+    }else{
+        alertModel.isShow = false;
+        alertModel.actionLoder = false;
+        this.setState({ deleteSupplierIndex: -1 ,alertCount:0,alertModel})
+    }
        
 
     }

@@ -97,7 +97,7 @@ export class UserList extends React.Component {
         return (
 
             <div className="row">
-                <div className="col">
+                <div className="col table-responsive">
                     <table className="table table-borderless user-list table-striped">
                         <thead>
                             <tr>
